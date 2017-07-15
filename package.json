@@ -1,7 +1,7 @@
 {
-  "name": "react-orcrist",
+  "name": "intelligent-diagnosis",
   "version": "1.0.0",
-  "description": "siapp",
+  "description": "face-intelligent-diagnosis",
   "scripts": {
     "dev": "node build/dev-server.js",
     "build": "node build/build.js"
