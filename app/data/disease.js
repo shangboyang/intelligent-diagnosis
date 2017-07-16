@@ -1,5 +1,4 @@
-
-export default {
+module.exports = {
   bells: {
     cname: '贝尔氏面瘫',
     probability: 0.022,
@@ -308,7 +307,7 @@ export default {
   },
   // liu gan
   cold: {
-    cname: '流感疫苗不良反应'
+    cname: '流感疫苗不良反应',
     probability: 0,
     probabilityIndex: 2,
     ageLimit: [0, 200],

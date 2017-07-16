@@ -9,68 +9,130 @@ import IMG_ACE from './images/ace.jpg'
 import IMG_LUFFY from './images/luffy.jpg'
 import * as AppActions from '../App/action'
 
-import { Button, NavBar, Icon, NoticeBar, Accordion, List } from 'antd-mobile';
+import * as Diseases from '../../data/disease'
+
+console.log('Diseases', Diseases);
+
 
 class Main extends Component {
 
   static defaultProps = {};
 
+  constructor(props) {
+    super(props)
+
+  }
+
+  changeSexHanler() {
+    console.log('ddd');
+  }
+
+  changeAgeHandler() {
+    console.log(this.refs.d.value)
+  }
+
+  changeBodyHanler() {
+
+  }
+  submitFormHandler() {
+    console.log('submit');
+  }
+
   render() {
 
     const { MainActions } = this.props
-
+    console.log(this);
     return (
       <div>
 
-        <NavBar
-          mode="light"
-          onLeftClick={() => console.log('onLeftClick')}
-          rightContent={[
-            <Icon key="1" type="ellipsis" />,
-          ]}
-        >Orcrist Boilerplate</NavBar>
-        <Content>
+        <div>
+          <div>性别：</div>
+          <div>
+            男 <input name="sex" type="radio" value="M" checked onChange={this.changeSexHanler.bind(this, 'M')}/>
+            女 <input name="sex" type="radio" value="F" onChange={this.changeSexHanler.bind(this, "F")}/>
+          </div>
+        </div>
+        <div>
+          年龄：<input ref="d" type="form"/>
+        </div>
+        <div>
+          发病部位：
+          <div>
+            左侧 <input name="bodyParts" type="radio" value="0" checked onChange={this.changeBodyHanler.bind(this, 0)}/>
+            右侧 <input name="bodyParts" type="radio" value="1" onChange={this.changeBodyHanler.bind(this, 1)}/>
+            <span style={{color: 'red'}}>双侧</span><input name="bodyParts" type="radio" value="2" onChange={this.changeBodyHanler.bind(this, 2)}/>
+          </div>
+        </div>
+        <div>
+          面瘫持续时间：
+          <div>
+            1周内 <input name="continued" type="radio" value="0" checked  />
+            1周~1月 <input name="continued" type="radio" value="1" />
+            1月~6月 <input name="continued" type="radio" value="2" />
+            6月以上 <input name="continued" type="radio" value="3" />
+          </div>
+        </div>
+        <div>
+          进展：
+          <div>
+            <span style={{color: 'red'}}>1天内</span> <input name="progress" type="radio" value="0" checked/>
+            1天~1周 <input name="progress" type="radio" value="1" />
+            1周以上 <input name="progress" type="radio" value="2" />
+          </div>
+        </div>
+        <div>
+          有无：
+          <div>
+            <div>
+              <input name="fever" type="checkbox"/>发烧
+               <input name="ear" type="checkbox" />剧烈耳痛
+               <input name="throat" type="checkbox" />剧烈咽痛
+               <input name="hypertension" type="checkbox" />高血压史
+               <input name="diabetes" type="checkbox" />糖尿病史
+            </div>
+            <div>
+               <input name="eye" type="checkbox" />曾眼睑痉挛
+               <input name="face" type="checkbox" />曾面瘫
+               <input name="gestation" type="checkbox" />正在妊娠
+               <input name="key_brow" type="checkbox" /><span style={{color: 'red'}}>抬眉困难</span>
+               <input name="key_eye" type="checkbox" /><span style={{color: 'red'}}>闭眼困难</span>
+            </div>
+            <div>
+               <input name="weekTeeth" type="checkbox" />一周内曾拔牙
+               <input name="weekFace" type="checkbox" />一周内曾接受面部麻醉
+               <input name="weekVaccine" type="checkbox" />一周内曾打疫苗
+            </div>
+            <div>
+               <input name="tired" type="checkbox" />易疲劳
+               <input name="hearing" type="checkbox" />听力下降
+              <input name="vision" type="checkbox" />视物模糊
+            </div>
+            <div>
+               <input name="faceNumb" type="checkbox" />面瘫侧麻木
+               <input name="key_face" type="checkbox" /><span style={{color: 'red'}}>面瘫侧严重外伤</span>
+               <input name="headache" type="checkbox" />皮疹
+            </div>
+            <div>
+               <input name="checkbox" type="checkbox" /><span style={{color: 'red'}}>四肢运动障碍</span>
+               <input name="checkbox" type="checkbox" />四肢关节疼痛
+               <input name="checkbox" type="checkbox" />剧烈头痛
+            </div>
+          </div>
+        </div>
 
-          <NoticeBar mode="closable" icon={<Icon type="check-circle-o" size="xxs" />}>
-            Orcrist是一个React样板工程.
-          </NoticeBar>
-          <img className="loading-ace" src={IMG_ACE}/>
-
-          <Accordion defaultActiveKey="2" className="my-accordion" onChange={this.onChange}>
-            <Accordion.Panel header="基础组件">
-              <List className="my-list">
-                <List.Item>Header + Content</List.Item>
-                <List.Item>Pagination 分页</List.Item>
-                <List.Item>PullToRefresh 下拉刷新</List.Item>
-                <List.Item>Loading（缺）</List.Item>
-              </List>
-            </Accordion.Panel>
-
-            <Accordion.Panel header="业务组件" className="my-accordion">
-              <List className="my-list">
-                <List.Item>Content 1</List.Item>
-                <List.Item>Content 2</List.Item>
-                <List.Item>Content 3</List.Item>
-              </List>
-            </Accordion.Panel>
-
-            <Accordion.Panel header="独立Demo" className="my-accordion">
-              <List className="my-list">
-                <List.Item arrow="horizontal" onClick={() => { MainActions.transLeft(); this.props.router.push('/list'); }}>分页列表 pageNo ver.</List.Item>
-                <List.Item arrow="horizontal" onClick={() => { MainActions.transLeft(); this.props.router.push('/limit'); }}>分页列表 pageStart + limit ver.</List.Item>
-                <List.Item arrow="horizontal" onClick={() => { MainActions.transLeft(); this.props.router.push('/props-callback'); }}>父子组件通信</List.Item>
-              </List>
-            </Accordion.Panel>
-
-            <Accordion.Panel header="附录" className="my-accordion">
-              <List className="my-list">
-                <List.Item arrow="horizontal">Ant antd-mobile</List.Item>
-              </List>
-            </Accordion.Panel>
-          </Accordion>
-
-        </Content>
-
+        <div>
+          <div style={{
+            border: '1px solid #bbb',
+            width: '150px',
+            height: '40px',
+            fontSize: '20px',
+            lineHeight: '40px',
+            textAlign: 'center'
+          }} onClick={this.submitFormHandler}>确认提交</div>
+        </div>
+        <div>
+          <h3>选择的病可能是：</h3>
+        </div>
       </div>
     )
   }

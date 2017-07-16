@@ -9,7 +9,6 @@
   "author": "Boyang Shang <yang8701@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "antd-mobile": "^1.4.0",
     "babel-runtime": "^6.18.0",
     "flex-css-layout": "^1.2.8",
     "history": "^3.2.1",
