@@ -8,11 +8,11 @@ import './style.less'
 import IMG_ACE from './images/ace.jpg'
 import IMG_LUFFY from './images/luffy.jpg'
 import * as AppActions from '../App/action'
-
+import * as MainActions from './action'
 import * as Diseases from '../../data/disease'
 
 console.log('Diseases', Diseases);
-
+const Actions = Object.assign({}, AppActions, MainActions)
 
 class Main extends Component {
 
@@ -21,101 +21,187 @@ class Main extends Component {
   constructor(props) {
     super(props)
 
+    this.state = {
+      currRadio: {
+        sex      : 'M',
+        age      : '',
+        body     : '0',
+        continued: '0',
+        progress : '0',
+      }
+    }
+
+    this.keyNames = []
+
+    this.changeSexHandler = this.changeSexHandler.bind(this)
+    this.changeAgeHandler = this.changeAgeHandler.bind(this)
+    this.changeBodyHandler = this.changeBodyHandler.bind(this)
+    this.changeContinuedHandler = this.changeContinuedHandler.bind(this)
+    this.changeProgressHandler = this.changeProgressHandler.bind(this)
+    this.getCheckboxValues = this.getCheckboxValues.bind(this)
+    this.submitFormHandler = this.submitFormHandler.bind(this)
   }
 
-  changeSexHanler() {
-    console.log('ddd');
+  changeSexHandler(e) {
+
+    let newRadio = Object.assign({}, this.state.currRadio, {
+      sex: e.target.value
+    })
+    console.log('changeSexHandler', newRadio);
+    this.setState({
+      currRadio: newRadio
+    })
   }
 
-  changeAgeHandler() {
-    console.log(this.refs.d.value)
+  changeAgeHandler(e) {
+
+    let newRadio = Object.assign({}, this.state.currRadio, {
+      age: e.target.value
+    })
+    console.log('changeAgeHandler', newRadio);
+    this.setState({
+      currRadio: newRadio
+    })
   }
 
-  changeBodyHanler() {
+  changeBodyHandler(e) {
+    console.log(e.target.value);
+    let newRadio = Object.assign({}, this.state.currRadio, {
+      body: e.target.value
+    })
+    console.log('changeBodyHandler', newRadio);
+    this.setState({
+      currRadio: newRadio
+    })
+
+    console.log('dd', this.keyNames)
+  }
+
+  changeContinuedHandler(e) {
+    let newRadio = Object.assign({}, this.state.currRadio, {
+      continued: e.target.value
+    })
+    console.log('changeContinuedHandler', newRadio);
+    this.setState({
+      currRadio: newRadio
+    })
+  }
+
+  changeProgressHandler(e) {
+    let newRadio = Object.assign({}, this.state.currRadio, {
+      continued: e.target.value
+    })
+    console.log('changeContinuedHandler', newRadio);
+    this.setState({
+      currRadio: newRadio
+    })
+  }
+
+  getCheckboxValues() {
+    const rootDom = this.refs.checkbox
+    let selectors = rootDom.querySelectorAll('div input[type="checkbox"]:checked')
+
+    // 1st Sort keyWord
+    console.log(selectors)
+    let keyNameArr = []
+    for (var i = 0, len = selectors.length; i < len; i++) {
+      if (!!selectors[i].name.match(/key/g)) {
+        keyNameArr.push(selectors[i].name)
+      }
+    }
+    console.log('Key Arr', keyNameArr);
+    return selectors
 
   }
+
+
+
+  // 提交表单
   submitFormHandler() {
-    console.log('submit');
+    const { Actions } = this.props
+
+    const params = this.getCheckboxValues()
+    // Actions.submitForm()
   }
 
   render() {
 
-    const { MainActions } = this.props
-    console.log(this);
+    const { Actions } = this.props
+
     return (
       <div>
 
         <div>
           <div>性别：</div>
           <div>
-            男 <input name="sex" type="radio" value="M" checked onChange={this.changeSexHanler.bind(this, 'M')}/>
-            女 <input name="sex" type="radio" value="F" onChange={this.changeSexHanler.bind(this, "F")}/>
+            男 <input name="sex" type="radio" value="M" defaultChecked onClick={this.changeSexHandler}/>
+            女 <input name="sex" type="radio" value="F" onClick={this.changeSexHandler}/>
           </div>
         </div>
         <div>
-          年龄：<input ref="d" type="form"/>
+          年龄：<input type="form" onChange={this.changeAgeHandler}/>
         </div>
         <div>
           发病部位：
           <div>
-            左侧 <input name="bodyParts" type="radio" value="0" checked onChange={this.changeBodyHanler.bind(this, 0)}/>
-            右侧 <input name="bodyParts" type="radio" value="1" onChange={this.changeBodyHanler.bind(this, 1)}/>
-            <span style={{color: 'red'}}>双侧</span><input name="bodyParts" type="radio" value="2" onChange={this.changeBodyHanler.bind(this, 2)}/>
+            左侧 <input name="bodyParts" type="radio" defaultValue="0" defaultChecked onClick={this.changeBodyHandler}/>
+            右侧 <input name="bodyParts" type="radio" defaultValue="1"  onClick={this.changeBodyHandler}/>
+            <span style={{color: 'red'}}>双侧</span><input name="bodyParts" type="radio" defaultValue="2" onClick={this.changeBodyHandler}/>
           </div>
         </div>
         <div>
           面瘫持续时间：
           <div>
-            1周内 <input name="continued" type="radio" value="0" checked  />
-            1周~1月 <input name="continued" type="radio" value="1" />
-            1月~6月 <input name="continued" type="radio" value="2" />
-            6月以上 <input name="continued" type="radio" value="3" />
+            1周内 <input name="continued" type="radio" value="0" defaultChecked onClick={this.changeContinuedHandler} />
+            1周~1月 <input name="continued" type="radio" value="1" onClick={this.changeContinuedHandler} />
+            1月~6月 <input name="continued" type="radio" value="2" onClick={this.changeContinuedHandler} />
+            6月以上 <input name="continued" type="radio" value="3" onClick={this.changeContinuedHandler} />
           </div>
         </div>
         <div>
           进展：
           <div>
-            <span style={{color: 'red'}}>1天内</span> <input name="progress" type="radio" value="0" checked/>
-            1天~1周 <input name="progress" type="radio" value="1" />
-            1周以上 <input name="progress" type="radio" value="2" />
+            <span style={{color: 'red'}}>1天内</span> <input name="progress" type="radio" value="0" defaultChecked onClick={this.changeProgressHandler}/>
+            1天~1周 <input name="progress" type="radio" value="1" onClick={this.changeProgressHandler} />
+            1周以上 <input name="progress" type="radio" value="2" onClick={this.changeProgressHandler} />
           </div>
         </div>
         <div>
           有无：
-          <div>
+          <div ref="checkbox">
             <div>
               <input name="fever" type="checkbox"/>发烧
-               <input name="ear" type="checkbox" />剧烈耳痛
-               <input name="throat" type="checkbox" />剧烈咽痛
-               <input name="hypertension" type="checkbox" />高血压史
-               <input name="diabetes" type="checkbox" />糖尿病史
+              <input name="ear" type="checkbox" />剧烈耳痛
+              <input name="throat" type="checkbox" />剧烈咽痛
+              <input name="hypertension" type="checkbox" />高血压史
+              <input name="diabetes" type="checkbox" />糖尿病史
             </div>
             <div>
-               <input name="eye" type="checkbox" />曾眼睑痉挛
-               <input name="face" type="checkbox" />曾面瘫
-               <input name="gestation" type="checkbox" />正在妊娠
-               <input name="key_brow" type="checkbox" /><span style={{color: 'red'}}>抬眉困难</span>
-               <input name="key_eye" type="checkbox" /><span style={{color: 'red'}}>闭眼困难</span>
+              <input name="eye" type="checkbox" />曾眼睑痉挛
+              <input name="face" type="checkbox" />曾面瘫
+              <input name="gestation" type="checkbox" />正在妊娠
+              <input name="key_brow" type="checkbox" /><span style={{color: 'red'}}>抬眉困难</span>
+              <input name="key_eye" type="checkbox" /><span style={{color: 'red'}}>闭眼困难</span>
             </div>
             <div>
-               <input name="weekTeeth" type="checkbox" />一周内曾拔牙
-               <input name="weekFace" type="checkbox" />一周内曾接受面部麻醉
-               <input name="weekVaccine" type="checkbox" />一周内曾打疫苗
+              <input name="weekTeeth" type="checkbox" />一周内曾拔牙
+              <input name="weekFace" type="checkbox" />一周内曾接受面部麻醉
+              <input name="weekVaccine" type="checkbox" />一周内曾打疫苗
             </div>
             <div>
-               <input name="tired" type="checkbox" />易疲劳
-               <input name="hearing" type="checkbox" />听力下降
+              <input name="tired" type="checkbox" />易疲劳
+              <input name="hearing" type="checkbox" />听力下降
               <input name="vision" type="checkbox" />视物模糊
             </div>
             <div>
-               <input name="faceNumb" type="checkbox" />面瘫侧麻木
-               <input name="key_face" type="checkbox" /><span style={{color: 'red'}}>面瘫侧严重外伤</span>
-               <input name="headache" type="checkbox" />皮疹
+              <input name="faceNumb" type="checkbox" />面瘫侧麻木
+              <input name="key_face" type="checkbox" /><span style={{color: 'red'}}>面瘫侧严重外伤</span>
+              <input name="skin" type="checkbox" />皮疹
             </div>
             <div>
-               <input name="checkbox" type="checkbox" /><span style={{color: 'red'}}>四肢运动障碍</span>
-               <input name="checkbox" type="checkbox" />四肢关节疼痛
-               <input name="checkbox" type="checkbox" />剧烈头痛
+              <input name="key_sport" type="checkbox" /><span style={{color: 'red'}}>四肢运动障碍</span>
+              <input name="joint" type="checkbox" />四肢关节疼痛
+              <input name="headache" type="checkbox" />剧烈头痛
             </div>
           </div>
         </div>
@@ -140,12 +226,15 @@ class Main extends Component {
 
 // redux ‘s state 非 react state
 function mapStateToProps(state) {
-  return {}
+  const { intelligentReducer } = state
+  return {
+
+  }
 }
 
 function mapActionToProps(dispatch) {
   return {
-    MainActions: bindActionCreators(AppActions, dispatch)
+    Actions: bindActionCreators(Actions, dispatch)
   }
 
 }
