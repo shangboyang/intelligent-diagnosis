@@ -1,4 +1,4 @@
-#react-orcirst 兽咬剑React
+# intelligent-diagnosis 智能预诊
 
 > react-webpack-boilerplate
 
@@ -8,7 +8,7 @@
 2.打开iterm 安装依赖包 npm install
 3.运行服务器：npm run dev
 4.应用打包：npm run build
-5.浏览器访问：http://localhost:7706/
+5.浏览器访问：http://localhost:6789/
 ```
 
 ### evn
