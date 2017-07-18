@@ -136,29 +136,28 @@ class Main extends Component {
     }
     console.log('keyNameArr', keyNameArr);
     let keyMatchedDiArr = [];
+    for (let d in Diseases) {
+      let object = {}
+      object.matchedNo = 0
 
-    for (let i = 0, len = keyNameArr.length; i < len; i++) {
-      console.log(keyNameArr[i]);
+      for (let i = 0, len = keyNameArr.length; i < len; i++) {
 
-      for (let d in Diseases) {
-        let object = {}
-        object.matchedNo = 0
-
-        for (let bodyKey in Diseases[d].bodyParts) {
-          if (keyNameArr[i] === Diseases[d].bodyParts[bodyKey] && Diseases[d].bodyParts[bodyKey]) object.matchedNo++
+        for (let b in Diseases[d].bodyParts) {
+          if (keyNameArr[i] === b && Diseases[d].bodyParts[b]) object.matchedNo++
         }
 
-        for (let progress in Diseases[d].progress) {
-          if (keyNameArr[i] === Diseases[d].progress[progress] && Diseases[d].progress[progress]) object.matchedNo++
+        for (let p in Diseases[d].progress) {
+          if (keyNameArr[i] === p && Diseases[d].progress[p]) object.matchedNo++
         }
 
-        for (let checkbox in Diseases[d].checkbox) {
-          if (keyNameArr[i] === Diseases[d].checkbox[checkbox] && Diseases[d].checkbox[checkbox]) object.matchedNo++
+        for (let c in Diseases[d].checkbox) {
+          if (keyNameArr[i] === c && Diseases[d].checkbox[c]) object.matchedNo++
         }
-        object.name = d
-        object.cname = Diseases[d].cname
-        keyMatchedDiArr.push(object)
+
       }
+      object.name = d
+      object.cname = Diseases[d].cname
+      keyMatchedDiArr.push(object)
 
     }
     console.log('keyMatchedDiArr', keyMatchedDiArr);
