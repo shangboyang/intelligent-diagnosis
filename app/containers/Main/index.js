@@ -31,7 +31,13 @@ class Main extends Component {
       }
     }
 
-    this.keyNames = []
+    this.currRadio = {
+      sex      : 'M',
+      age      : '',
+      body     : 'left',
+      continued: '0',
+      progress : 'key_day',
+    }
 
     this.changeSexHandler = this.changeSexHandler.bind(this)
     this.changeAgeHandler = this.changeAgeHandler.bind(this)
@@ -44,6 +50,8 @@ class Main extends Component {
 
   changeSexHandler(e) {
 
+    this.currRadio.sex = e.target.value
+    /*
     let newRadio = Object.assign({}, this.state.currRadio, {
       sex: e.target.value
     })
@@ -51,10 +59,13 @@ class Main extends Component {
     this.setState({
       currRadio: newRadio
     })
+    */
   }
 
   changeAgeHandler(e) {
 
+    this.currRadio.age = e.target.value
+    /*
     let newRadio = Object.assign({}, this.state.currRadio, {
       age: e.target.value
     })
@@ -62,9 +73,13 @@ class Main extends Component {
     this.setState({
       currRadio: newRadio
     })
+    */
   }
 
   changeBodyHandler(e) {
+
+    this.currRadio.body = e.target.value
+    /*
     console.log(e.target.value);
     let newRadio = Object.assign({}, this.state.currRadio, {
       body: e.target.value
@@ -73,11 +88,15 @@ class Main extends Component {
     this.setState({
       currRadio: newRadio
     })
+    */
 
-    console.log('dd', this.keyNames)
+    console.log('dd', this.currRadio)
   }
 
   changeContinuedHandler(e) {
+
+    this.currRadio.continued = e.target.value
+    /*
     let newRadio = Object.assign({}, this.state.currRadio, {
       continued: e.target.value
     })
@@ -85,16 +104,20 @@ class Main extends Component {
     this.setState({
       currRadio: newRadio
     })
+    */
   }
 
   changeProgressHandler(e) {
+    this.currRadio.progress = e.target.value
+    /*
     let newRadio = Object.assign({}, this.state.currRadio, {
-      continued: e.target.value
+      progress: e.target.value
     })
     console.log('changeContinuedHandler', newRadio);
     this.setState({
       currRadio: newRadio
     })
+    */
   }
 
   getCheckboxValues() {
@@ -104,12 +127,41 @@ class Main extends Component {
     // 1st Sort keyWord
     console.log(selectors)
     let keyNameArr = []
-    for (var i = 0, len = selectors.length; i < len; i++) {
-      if (!!selectors[i].name.match(/key/g)) {
-        keyNameArr.push(selectors[i].name)
-      }
+    for (let i in this.currRadio) {
+      if (this.currRadio[i].match(/key/g)) keyNameArr.push(this.currRadio[i])
     }
-    console.log('Key Arr', keyNameArr);
+
+    for (let i = 0, len = selectors.length; i < len; i++) {
+      if (selectors[i].name.match(/key/g)) keyNameArr.push(selectors[i].name)
+    }
+    console.log('keyNameArr', keyNameArr);
+    let keyMatchedDiArr = [];
+
+    for (let i = 0, len = keyNameArr.length; i < len; i++) {
+      console.log(keyNameArr[i]);
+
+      for (let d in Diseases) {
+        let object = {}
+        object.matchedNo = 0
+
+        for (let bodyKey in Diseases[d].bodyParts) {
+          if (keyNameArr[i] === Diseases[d].bodyParts[bodyKey] && Diseases[d].bodyParts[bodyKey]) object.matchedNo++
+        }
+
+        for (let progress in Diseases[d].progress) {
+          if (keyNameArr[i] === Diseases[d].progress[progress] && Diseases[d].progress[progress]) object.matchedNo++
+        }
+
+        for (let checkbox in Diseases[d].checkbox) {
+          if (keyNameArr[i] === Diseases[d].checkbox[checkbox] && Diseases[d].checkbox[checkbox]) object.matchedNo++
+        }
+        object.name = d
+        object.cname = Diseases[d].cname
+        keyMatchedDiArr.push(object)
+      }
+
+    }
+    console.log('keyMatchedDiArr', keyMatchedDiArr);
     return selectors
 
   }
@@ -144,9 +196,9 @@ class Main extends Component {
         <div>
           发病部位：
           <div>
-            左侧 <input name="bodyParts" type="radio" defaultValue="0" defaultChecked onClick={this.changeBodyHandler}/>
-            右侧 <input name="bodyParts" type="radio" defaultValue="1"  onClick={this.changeBodyHandler}/>
-            <span style={{color: 'red'}}>双侧</span><input name="bodyParts" type="radio" defaultValue="2" onClick={this.changeBodyHandler}/>
+            左侧 <input name="bodyParts" type="radio" defaultValue="left" defaultChecked onClick={this.changeBodyHandler}/>
+            右侧 <input name="bodyParts" type="radio" defaultValue="right"  onClick={this.changeBodyHandler}/>
+            <span style={{color: 'red'}}>双侧</span><input name="bodyParts" type="radio" defaultValue="key_both" onClick={this.changeBodyHandler}/>
           </div>
         </div>
         <div>
@@ -161,9 +213,9 @@ class Main extends Component {
         <div>
           进展：
           <div>
-            <span style={{color: 'red'}}>1天内</span> <input name="progress" type="radio" value="0" defaultChecked onClick={this.changeProgressHandler}/>
-            1天~1周 <input name="progress" type="radio" value="1" onClick={this.changeProgressHandler} />
-            1周以上 <input name="progress" type="radio" value="2" onClick={this.changeProgressHandler} />
+            <span style={{color: 'red'}}>1天内</span> <input name="progress" type="radio" value="key_day" defaultChecked onClick={this.changeProgressHandler}/>
+            1天~1周 <input name="progress" type="radio" value="week" onClick={this.changeProgressHandler} />
+            1周以上 <input name="progress" type="radio" value="exceedWeek" onClick={this.changeProgressHandler} />
           </div>
         </div>
         <div>
