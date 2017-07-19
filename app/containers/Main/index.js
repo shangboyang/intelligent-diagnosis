@@ -20,17 +20,11 @@ class Main extends Component {
 
   constructor(props) {
     super(props)
-    /*
+
     this.state = {
-      currRadio: {
-        sex      : 'M',
-        age      : '',
-        body     : '0',
-        continued: '0',
-        progress : '0',
-      }
+      diArr: []
     }
-    */
+
 
     this.currRadio = {
       sex      : 'M',
@@ -127,18 +121,16 @@ class Main extends Component {
     let selectors = rootDom.querySelectorAll('div input[type="checkbox"]:checked') || []
 
     let sortedDiArr = this.getKeyTagsMatchedDiArr(selectors)
-    console.log('1st:::', sortedDiArr);
+
     sortedDiArr = this.getAllTagsMatchedDiArr(selectors, sortedDiArr)
-    console.log('2nd:::', sortedDiArr);
 
     sortedDiArr = this.getProbabilityMatchedDiArr(sortedDiArr)
-    console.log('3rd:::', sortedDiArr);
-    /*
-    sortedDiArr = this.getNameMatchedDiArr(selectors, sortedDiArr)
-    console.log('4th:::', sortedDiArr);
-    */
 
-    return sortedDiArr;
+    sortedDiArr = this.getNameMatchedDiArr(sortedDiArr)
+
+    console.log('finished sortedDiArr', sortedDiArr);
+
+    return sortedDiArr
   }
 
   getDiArrSortByFilterName(diArr, filterProp) {
@@ -189,10 +181,7 @@ class Main extends Component {
       keyMatchedDiArr.push(object)
 
     }
-    /*
-    console.log('keyMatchedDiArr', keyMatchedDiArr);
-    console.log('sorted keyMatchedDiArr', this.getDiArrSortByFilterName(keyMatchedDiArr, 'keyMatchedNo'));
-    */
+
     return this.getDiArrSortByFilterName(keyMatchedDiArr, 'keyMatchedNo')
   }
   // 2nd Sort all tags
@@ -212,7 +201,7 @@ class Main extends Component {
     for (let i = 0, len = selectors.length; i < len; i++) {
       allTagsNameArr.push(selectors[i].name)
     }
-    console.log('allTagsNameArr', allTagsNameArr);
+    console.log('所有选中标签::::::', allTagsNameArr);
 
     for (let d in diseaseArr) {
 
@@ -254,6 +243,7 @@ class Main extends Component {
       }
       // 加权值 = (key * 0.1 + 1) + allTag[重]
       diseaseArr[d].allTagsWeght = 1 + diseaseArr[d].keyMatchedNo * 0.1 + diseaseArr[d].allTagsMatchedNo
+
     }
 
     return this.getDiArrSortByFilterName(diseaseArr, 'allTagsWeght')
@@ -263,14 +253,18 @@ class Main extends Component {
   // 3rd Sort prop probability
   getProbabilityMatchedDiArr(diArr) {
     let diseaseArr = diArr
-    for (let d in diseaseArr) {
-      diseaseArr[d].probabilityWeight = diseaseArr[d].detail['probability'] * 1000 + diseaseArr[d].allTagsWeght
-    }
 
+    for (let d in diseaseArr) {
+      diseaseArr[d].probability = diseaseArr[d].detail['probability']
+      // 加权：base All tags
+      diseaseArr[d].probabilityWeight = (diseaseArr[d].detail['probability'] / 10 + diseaseArr[d].allTagsWeght).toFixed(5)
+
+    }
     return this.getDiArrSortByFilterName(diseaseArr, 'probabilityWeight')
   }
-  // 4th
-  getNameMatchedDiArr(selectors, diArr) {
+
+  // 4th 重复值按照 英文排列
+  getNameMatchedDiArr(diArr) {
     return diArr
   }
 
@@ -278,14 +272,21 @@ class Main extends Component {
   submitFormHandler() {
     const { Actions } = this.props
 
-    const params = this.getCheckboxValues()
+    const diArr = this.getCheckboxValues()
+
+    console.log('diArr:::', diArr)
+
+    this.setState({
+      diArr: diArr
+    })
     // Actions.submitForm()
   }
 
   render() {
 
     const { Actions } = this.props
-
+    const { diArr } = this.state
+    console.log(diArr);
     return (
       <div>
 
@@ -376,6 +377,13 @@ class Main extends Component {
         </div>
         <div>
           <h3>选择的病可能是：</h3>
+          {
+            diArr.map((di, idx) => {
+              return (
+                <div key={idx}>{idx} : {di.cname}</div>
+              )
+            })
+          }
         </div>
       </div>
     )
