@@ -9,7 +9,7 @@ import IMG_ACE from './images/ace.jpg'
 import IMG_LUFFY from './images/luffy.jpg'
 import * as AppActions from '../App/action'
 import * as MainActions from './action'
-import * as Diseases from '../../data/disease'
+import Diseases from '../../data/disease'
 
 console.log('Diseases', Diseases);
 const Actions = Object.assign({}, AppActions, MainActions)
@@ -20,7 +20,7 @@ class Main extends Component {
 
   constructor(props) {
     super(props)
-
+    /*
     this.state = {
       currRadio: {
         sex      : 'M',
@@ -30,6 +30,7 @@ class Main extends Component {
         progress : '0',
       }
     }
+    */
 
     this.currRadio = {
       sex      : 'M',
@@ -121,12 +122,38 @@ class Main extends Component {
   }
 
   getCheckboxValues() {
-    const rootDom = this.refs.checkbox
-    let selectors = rootDom.querySelectorAll('div input[type="checkbox"]:checked')
 
-    // 1st Sort keyWord
-    console.log(selectors)
-    let keyNameArr = []
+    const rootDom = this.refs.checkbox
+    let selectors = rootDom.querySelectorAll('div input[type="checkbox"]:checked') || []
+
+    let sortedDiArr = this.getKeyTagsMatchedDiArr(selectors)
+    console.log('1st:::', sortedDiArr);
+    sortedDiArr = this.getAllTagsMatchedDiArr(selectors, sortedDiArr)
+    console.log('2nd:::', sortedDiArr);
+
+    sortedDiArr = this.getProbabilityMatchedDiArr(sortedDiArr)
+    console.log('3rd:::', sortedDiArr);
+    /*
+    sortedDiArr = this.getNameMatchedDiArr(selectors, sortedDiArr)
+    console.log('4th:::', sortedDiArr);
+    */
+
+    return sortedDiArr;
+  }
+
+  getDiArrSortByFilterName(diArr, filterProp) {
+    return diArr.length > 0  && diArr.sort(function(a, b) {
+      let d1 = a[filterProp]
+      let d2 = b[filterProp]
+      return d2 - d1
+    })
+  }
+  // 1st Sort keyWord
+  getKeyTagsMatchedDiArr(selectors) {
+
+    let keyNameArr = []          // 被选中标红tags组
+    let keyMatchedDiArr = []     // 比对后命中疾病组
+
     for (let i in this.currRadio) {
       if (this.currRadio[i].match(/key/g)) keyNameArr.push(this.currRadio[i])
     }
@@ -134,38 +161,118 @@ class Main extends Component {
     for (let i = 0, len = selectors.length; i < len; i++) {
       if (selectors[i].name.match(/key/g)) keyNameArr.push(selectors[i].name)
     }
-    console.log('keyNameArr', keyNameArr);
-    let keyMatchedDiArr = [];
-    for (let d in Diseases) {
+    console.log('标红 keyNameArr', keyNameArr);
+
+    for (var d in Diseases) {
+
       let object = {}
-      object.matchedNo = 0
+      object.keyMatchedNo = 0
 
       for (let i = 0, len = keyNameArr.length; i < len; i++) {
 
         for (let b in Diseases[d].bodyParts) {
-          if (keyNameArr[i] === b && Diseases[d].bodyParts[b]) object.matchedNo++
+          if (keyNameArr[i] === b && Diseases[d].bodyParts[b]) object.keyMatchedNo++
         }
 
         for (let p in Diseases[d].progress) {
-          if (keyNameArr[i] === p && Diseases[d].progress[p]) object.matchedNo++
+          if (keyNameArr[i] === p && Diseases[d].progress[p]) object.keyMatchedNo++
         }
 
         for (let c in Diseases[d].checkbox) {
-          if (keyNameArr[i] === c && Diseases[d].checkbox[c]) object.matchedNo++
+          if (keyNameArr[i] === c && Diseases[d].checkbox[c]) object.keyMatchedNo++
         }
 
       }
       object.name = d
       object.cname = Diseases[d].cname
+      object.detail = Diseases[d]
       keyMatchedDiArr.push(object)
 
     }
+    /*
     console.log('keyMatchedDiArr', keyMatchedDiArr);
-    return selectors
+    console.log('sorted keyMatchedDiArr', this.getDiArrSortByFilterName(keyMatchedDiArr, 'keyMatchedNo'));
+    */
+    return this.getDiArrSortByFilterName(keyMatchedDiArr, 'keyMatchedNo')
+  }
+  // 2nd Sort all tags
+  getAllTagsMatchedDiArr(selectors, diArr) {
+    let allTagsNameArr = []          // 被选中所有tags组
+    let allTagsMatchedDiArr = []     // 比对后命中疾病组
+    let diseaseArr = diArr
+
+    for (let i in this.currRadio) {
+      if (!i.match(/sex|continued/g)) {
+        allTagsNameArr.push({
+          [i]: this.currRadio[i]
+        })
+      }
+    }
+
+    for (let i = 0, len = selectors.length; i < len; i++) {
+      allTagsNameArr.push(selectors[i].name)
+    }
+    console.log('allTagsNameArr', allTagsNameArr);
+
+    for (let d in diseaseArr) {
+
+      diseaseArr[d].allTagsMatchedNo = 0
+
+      for (let i = 0, len = allTagsNameArr.length; i < len; i++) {
+
+        if (typeof allTagsNameArr[i] === 'object') {
+          // ageLimit
+          if (allTagsNameArr[i]['age']) {
+            +allTagsNameArr[i]['age'] >= diseaseArr[d].detail.ageLimit[0] && +allTagsNameArr[i]['age'] <= diseaseArr[d].detail.ageLimit[1] &&
+              diseaseArr[d].allTagsMatchedNo++
+          }
+
+          if (allTagsNameArr[i]['body']) {
+            for (let b in diseaseArr[d].detail.bodyParts) {
+              if (b === allTagsNameArr[i]['body'] && diseaseArr[d].detail.bodyParts[b]) {
+                diseaseArr[d].allTagsMatchedNo++
+              }
+            }
+          }
+
+          if (allTagsNameArr[i]['progress']) {
+            for (let p in diseaseArr[d].detail.progress) {
+              if (p === allTagsNameArr[i]['progress'] && diseaseArr[d].detail.progress[p]) {
+                diseaseArr[d].allTagsMatchedNo++
+              }
+            }
+          }
+
+        } else {
+
+          for (let c in diseaseArr[d].detail.checkbox) {
+            if (allTagsNameArr[i] === c && diseaseArr[d].detail.checkbox[c]) diseaseArr[d].allTagsMatchedNo++
+          }
+
+        }
+
+      }
+      // 加权值 = (key * 0.1 + 1) + allTag[重]
+      diseaseArr[d].allTagsWeght = 1 + diseaseArr[d].keyMatchedNo * 0.1 + diseaseArr[d].allTagsMatchedNo
+    }
+
+    return this.getDiArrSortByFilterName(diseaseArr, 'allTagsWeght')
 
   }
 
+  // 3rd Sort prop probability
+  getProbabilityMatchedDiArr(diArr) {
+    let diseaseArr = diArr
+    for (let d in diseaseArr) {
+      diseaseArr[d].probabilityWeight = diseaseArr[d].detail['probability'] * 1000 + diseaseArr[d].allTagsWeght
+    }
 
+    return this.getDiArrSortByFilterName(diseaseArr, 'probabilityWeight')
+  }
+  // 4th
+  getNameMatchedDiArr(selectors, diArr) {
+    return diArr
+  }
 
   // 提交表单
   submitFormHandler() {

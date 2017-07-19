@@ -1,4 +1,4 @@
-module.exports = {
+const Diseases = {
   bells: {
     cname: '贝尔氏面瘫',
     probability: 0.022,
@@ -570,3 +570,5 @@ module.exports = {
     }
   }
 }
+
+export default Diseases
