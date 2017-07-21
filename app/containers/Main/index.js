@@ -119,20 +119,33 @@ class Main extends Component {
 
     const rootDom = this.refs.checkbox
     let selectors = rootDom.querySelectorAll('div input[type="checkbox"]:checked') || []
+    let sortedDiArr = [];
 
-    let sortedDiArr = this.getKeyTagsMatchedDiArr(selectors)
+    sortedDiArr = this.getKeyTagsMatchedDiArr(selectors)
 
     sortedDiArr = this.getAllTagsMatchedDiArr(selectors, sortedDiArr)
 
+    this.getDiArrByCountKeys(sortedDiArr);
+
+
+    /*
     sortedDiArr = this.getProbabilityMatchedDiArr(sortedDiArr)
 
     sortedDiArr = this.getNameMatchedDiArr(sortedDiArr)
-
+    */
     console.log('finished sortedDiArr', sortedDiArr);
 
     return sortedDiArr
   }
 
+
+
+  /**
+   * 通过特定标识排序
+   * @param  {[type]} diArr      [description]
+   * @param  {[type]} filterProp [description]
+   * @return {[type]}            [description]
+   */
   getDiArrSortByFilterName(diArr, filterProp) {
     return diArr.length > 0  && diArr.sort(function(a, b) {
       let d1 = a[filterProp]
@@ -140,7 +153,43 @@ class Main extends Component {
       return d2 - d1
     })
   }
-  // 1st Sort keyWord
+
+  getDiArrByCountKeys(diArr) {
+
+    if (diArr.length <= 0) return;
+
+    let rankDiArr = [];
+    let redCountBaseNo = diArr[0].keyMatchedNo;
+    let baseObj = {};
+
+    diArr.map((di, idx) => {
+
+      if (!baseObj['key_' + di.keyMatchedNo]) {
+        baseObj['key_' + di.keyMatchedNo] = []
+        baseObj['key_' + di.keyMatchedNo].push(di);
+      } else {
+        baseObj['key_' + di.keyMatchedNo].push(di);
+      }
+
+    })
+
+    for (let o in baseObj) {
+      rankDiArr.push(baseObj[o])
+    }
+
+    console.log('baseObj:::', baseObj);
+    console.log('rankDiArr', rankDiArr);
+
+  }
+
+  getSubDiArrByCountKeys(diArr) {
+    
+  }
+
+
+
+
+  // 1st Sort Red keyWord
   getKeyTagsMatchedDiArr(selectors) {
 
     let keyNameArr = []          // 被选中标红tags组
@@ -153,9 +202,9 @@ class Main extends Component {
     for (let i = 0, len = selectors.length; i < len; i++) {
       if (selectors[i].name.match(/key/g)) keyNameArr.push(selectors[i].name)
     }
-    console.log('标红 keyNameArr', keyNameArr);
+    console.log('标红 keyNames', keyNameArr);
 
-    for (var d in Diseases) {
+    for (let d in Diseases) {
 
       let object = {}
       object.keyMatchedNo = 0
@@ -175,15 +224,17 @@ class Main extends Component {
         }
 
       }
+
       object.name = d
       object.cname = Diseases[d].cname
-      object.detail = Diseases[d]
+      object.detail = Diseases[d] // origin Disease Detail Data
       keyMatchedDiArr.push(object)
 
     }
 
     return this.getDiArrSortByFilterName(keyMatchedDiArr, 'keyMatchedNo')
   }
+
   // 2nd Sort all tags
   getAllTagsMatchedDiArr(selectors, diArr) {
     let allTagsNameArr = []          // 被选中所有tags组
@@ -242,7 +293,7 @@ class Main extends Component {
 
       }
       // 加权值 = (key * 0.1 + 1) + allTag[重]
-      diseaseArr[d].allTagsWeght = 1 + diseaseArr[d].keyMatchedNo * 0.1 + diseaseArr[d].allTagsMatchedNo
+      // diseaseArr[d].allTagsWeght = 1 + diseaseArr[d].keyMatchedNo * 0.1 + diseaseArr[d].allTagsMatchedNo
 
     }
 

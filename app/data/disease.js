@@ -13,9 +13,9 @@ const Diseases = {
     continued: {},
     // 进展至最重
     progress: {
-      key_day   : true,
-      week      : false,
-      exceedWeek: false,
+      key_day   : true,  // 3天内
+      week      : false,  // 4-10天
+      exceedWeek: false,  // 超过十天
     },
     checkbox: {
       fever       : false, // 发烧
