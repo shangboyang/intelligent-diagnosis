@@ -5,54 +5,138 @@ import {
 } from './constant'
 
 // 排序ActionCreate
-export function startSortAction(selectedParams) {
+export function startSortAction() {
   return {
-    type: DISEASE_START_SORT
+    type: DISEASE_START_SORT,
+    diArr: [],
   }
 }
 
-export function endSortAction() {
+export function endSortAction(diArr) {
   return {
-    type: DISEASE_END_SORT
+    type: DISEASE_END_SORT,
+    diArr: diArr
   }
 }
 
-/*
-1. 首先考察含红Tag的问题：若选红Tag，则含红Tag的病优先，且红Tag总数越多的病越优先；若未选红Tag，则所选项目对应的病优先。
-2. 然后考察Tag总数（包含红Tag），Tag多的病优先。
-3. 最后，发病率越高的病，越优先；未写发病率，则默认为0。
-4. 若还有并列，则按首字母排序。
-*/
+/**
+ * 提交表单
+ * @param  {[type]} selectedParams [description]
+ * @return {[type]}                [description]
+ */
+export function submitForm(Diseases, params) {
 
-export function submitForm(selectedParams) {
-  return (getState, dispatch) => {
-    console.log('getState', getState);
-    console.log('dispatch', dispatch);
+  return (dispatch, getState) => {
+
+    dispatch(startSortAction())
+
+    let selectors = params.checkboxes.querySelectorAll('div input[type="checkbox"]:checked') || []
+    let sortedDiArr = getTagsMatchedDiArr(Diseases, params.currRadios, selectors)
+
+    let baseRankArr = getDiArrFilterByWeekTags(getDiArrByCountKeys(sortedDiArr))
+    sortedDiArr = concatRankDiArr(baseRankArr)
+
+    dispatch(endSortAction(sortedDiArr))
   }
 }
 
+function concatRankDiArr(rankDiArr) {
+  let baseDiArr = [];
+  rankDiArr.length > 0 && rankDiArr.map((subArr, idx) => {
+    baseDiArr = baseDiArr.concat(subArr)
+  })
 
-// Sort Red keyWord
-/*
-getKeyTagsMatchedDiArr(selectors) {
+  return baseDiArr;
+}
 
-  let keyNameArr = []          // 被选中标红tags组
-  let keyMatchedDiArr = []     // 比对后命中疾病组
+/**
+ * 通过特定标识排序
+ */
+function getDiArrSortByFilterName(diArr, filterProp) {
+  return diArr.length > 0  && diArr.sort(function(a, b) {
+    let d1 = a[filterProp]
+    let d2 = b[filterProp]
+    return d2 - d1
+  })
+}
 
-  for (let i in this.currRadio) {
-    if (this.currRadio[i].match(/key/g)) keyNameArr.push(this.currRadio[i])
+/**
+ * 根据红tag重排序疾病数组
+ */
+function getDiArrByCountKeys(diArr) {
+
+  if (diArr.length <= 0) return;
+
+  let rankDiArr = [];
+  let redCountBaseNo = diArr[0].keyMatchedNo;
+  let baseObj = {};
+
+  diArr.map((di, idx) => {
+
+    if (!baseObj['key_' + di.keyMatchedNo]) {
+      baseObj['key_' + di.keyMatchedNo] = []
+      baseObj['key_' + di.keyMatchedNo].push(di);
+    } else {
+      baseObj['key_' + di.keyMatchedNo].push(di);
+    }
+
+  })
+
+  for (let o in baseObj) {
+    rankDiArr.push(baseObj[o])
+  }
+  // 直接排序
+  return getSubDiArrSortByAllTagsNo(rankDiArr)
+}
+
+/**
+ * step2 result: 根据所有tag数排序子数组
+ */
+function getSubDiArrSortByAllTagsNo(rankDiArr) {
+  let newRankArr = []
+  rankDiArr.length > 0 && rankDiArr.map((arr, idx) => {
+    newRankArr.push(getDiArrSortByFilterName(arr, 'allTagsMatchedNo'))
+  })
+  return newRankArr
+}
+
+/**
+ * Sort all tags
+ */
+function getTagsMatchedDiArr(Diseases, currRadios, selectors) {
+
+  let keyNameArr = []              // 被选中标红tags组
+  let allTagsNameArr = []          // 被选中所有tags组
+  let countedArr = []
+
+  for (let i in currRadios) {
+    // red tags
+    if (currRadios[i].match(/key/g)) keyNameArr.push(currRadios[i])
+    // all tags
+    if (!i.match(/sex|continued/g)) {
+      allTagsNameArr.push({
+        [i]: currRadios[i]
+      })
+    }
   }
 
   for (let i = 0, len = selectors.length; i < len; i++) {
+    // red tags
     if (selectors[i].name.match(/key/g)) keyNameArr.push(selectors[i].name)
+    // black + red + green
+    allTagsNameArr.push(selectors[i].name)
   }
-  console.log('标红 keyNames', keyNameArr);
+
+  console.log('key tags 选中的红色标签::::::', keyNameArr);
+  console.log('all tags 选中的所有标签::::::', allTagsNameArr);
 
   for (let d in Diseases) {
 
     let object = {}
-    object.keyMatchedNo = 0
-
+    object.keyMatchedNo = 0      // red tags
+    object.allTagsMatchedNo = 0  // all tags
+    object.weekTagsMatchedNo = 0 // green tags
+    // 计算红tag个数
     for (let i = 0, len = keyNameArr.length; i < len; i++) {
 
       for (let b in Diseases[d].bodyParts) {
@@ -72,29 +156,69 @@ getKeyTagsMatchedDiArr(selectors) {
     object.name = d
     object.cname = Diseases[d].cname
     object.detail = Diseases[d] // origin Disease Detail Data
-    keyMatchedDiArr.push(object)
+    // ------------------------------------------------------------------------
+
+    // 计算所有tag个数
+    for (let i = 0, len = allTagsNameArr.length; i < len; i++) {
+
+      if (typeof allTagsNameArr[i] === 'object') {
+        // ageLimit
+        if (allTagsNameArr[i]['age']) {
+          +allTagsNameArr[i]['age'] >= object.detail.ageLimit[0] && +allTagsNameArr[i]['age'] <= object.detail.ageLimit[1] &&
+            object.allTagsMatchedNo++
+        }
+
+        if (allTagsNameArr[i]['body']) {
+          for (let b in object.detail.bodyParts) {
+            // console.log(b);
+            if (b === allTagsNameArr[i]['body'] && object.detail.bodyParts[b]) {
+              object.allTagsMatchedNo++
+            }
+          }
+        }
+
+        if (allTagsNameArr[i]['progress']) {
+          for (let p in object.detail.progress) {
+            // console.log(p);
+            if (p === allTagsNameArr[i]['progress'] && object.detail.progress[p]) {
+              object.allTagsMatchedNo++
+            }
+          }
+        }
+
+      } else {
+
+        for (let c in object.detail.checkbox) {
+
+          if (allTagsNameArr[i] === c && object.detail.checkbox[c]) object.allTagsMatchedNo++
+          if (allTagsNameArr[i] === c && object.detail.checkbox[c] && !!c.match(/week/g)) object.weekTagsMatchedNo++
+        }
+
+      }
+
+    }
+
+    countedArr.push(object)
 
   }
 
-  return this.getDiArrSortByFilterName(keyMatchedDiArr, 'keyMatchedNo')
-}
-*/
-/*
-// 3rd Sort prop probability
-getProbabilityMatchedDiArr(diArr) {
-  let diseaseArr = diArr
+  return getDiArrSortByFilterName(countedArr, 'keyMatchedNo');
 
-  for (let d in diseaseArr) {
-    diseaseArr[d].probability = diseaseArr[d].detail['probability']
-    // 加权：base All tags
-    diseaseArr[d].probabilityWeight = (diseaseArr[d].detail['probability'] / 10 + diseaseArr[d].allTagsWeght).toFixed(5)
-
-  }
-  return this.getDiArrSortByFilterName(diseaseArr, 'probabilityWeight')
 }
 
-// 4th 重复值按照 英文排列
-getNameMatchedDiArr(diArr) {
-  return diArr
+/**
+ * Week Tag update 优先级
+ */
+function getDiArrFilterByWeekTags(rankDiArr) {
+  let weekDiArr = [];
+  rankDiArr.length > 0 && rankDiArr.map((subArr, index) => {
+    subArr.map((di, idx) => {
+      if (di.weekTagsMatchedNo > 0) {
+        weekDiArr.push(di)
+        subArr.splice(idx, 1)
+      }
+    })
+  })
+  rankDiArr.unshift(weekDiArr)
+  return rankDiArr
 }
-*/
