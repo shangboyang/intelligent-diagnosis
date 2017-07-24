@@ -33,7 +33,7 @@ export function submitForm(Diseases, params) {
     let selectors = params.checkboxes.querySelectorAll('div input[type="checkbox"]:checked') || []
     let sortedDiArr = getTagsMatchedDiArr(Diseases, params.currRadios, selectors)
 
-    let baseRankArr = getDiArrFilterByWeekTags(getDiArrByCountKeys(sortedDiArr))
+    let baseRankArr = getDiArrFilterByWeekTags(selectors, getDiArrByCountKeys(sortedDiArr))
     sortedDiArr = concatRankDiArr(baseRankArr)
 
     dispatch(endSortAction(sortedDiArr))
@@ -207,18 +207,41 @@ function getTagsMatchedDiArr(Diseases, currRadios, selectors) {
 }
 
 /**
- * Week Tag update 优先级
+ * Week Tag 调整优先级
  */
-function getDiArrFilterByWeekTags(rankDiArr) {
-  let weekDiArr = [];
+function getDiArrFilterByWeekTags(selectors, rankDiArr) {
+
+  let weekFlag = false // 一次submit weekFlag是固定的
+  let weekDiHeadArr = []
+  let weekDiFootArr = []
+
+  for (let i = 0, len = selectors.length; i < len; i++) {
+    if (selectors[i].name.match(/week/g)) weekFlag = true
+  }
+
   rankDiArr.length > 0 && rankDiArr.map((subArr, index) => {
     subArr.map((di, idx) => {
-      if (di.weekTagsMatchedNo > 0) {
-        weekDiArr.push(di)
-        subArr.splice(idx, 1)
+      // 选了绿 含有绿色症状的全放前面 不含绿的全放最后面
+      if (weekFlag) {
+        if (di.weekTagsMatchedNo > 0) {
+          weekDiHeadArr.push(di)
+          subArr.splice(idx, 1)
+        }
+      } else {
+        di.hasWeekTagNo = 0 // 疾病含绿个数0
+
+        for (let c in di.detail.checkbox) {
+          if (c.match(/week/g) && di.detail.checkbox[c]) di.hasWeekTagNo++
+        }
+
+        if (di.hasWeekTagNo > 0) {
+          weekDiFootArr.push(di)
+          subArr.splice(idx, 1)
+        }
       }
     })
+
   })
-  rankDiArr.unshift(weekDiArr)
+  weekFlag ? rankDiArr.unshift(weekDiHeadArr) : rankDiArr.push(weekDiFootArr)
   return rankDiArr
 }
