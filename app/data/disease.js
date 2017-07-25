@@ -390,7 +390,7 @@ const Diseases = {
       green_teeth   : false, // 一周内曾拔牙
       green_face    : false, // 一周内曾接受面部麻醉
       green_vaccine : false, // 一周内曾打疫苗
-      green_injure    : true, // 面瘫侧严重外伤
+      green_injure  : true, // 面瘫侧严重外伤
     }
   },
   // zi shen mian yi

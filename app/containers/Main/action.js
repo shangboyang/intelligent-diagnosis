@@ -214,6 +214,7 @@ function getDiArrFilterByWeekTags(selectors, rankDiArr) {
   let weekFlag = false // 一次submit weekFlag是固定的
   let weekDiHeadArr = []
   let weekDiFootArr = []
+  let formatRankDiArr = []
 
   for (let i = 0, len = selectors.length; i < len; i++) {
     if (selectors[i].name.match(/green/g)) weekFlag = true
@@ -225,24 +226,32 @@ function getDiArrFilterByWeekTags(selectors, rankDiArr) {
       if (weekFlag) {
         if (di.weekTagsMatchedNo > 0) {
           weekDiHeadArr.push(di)
-          subArr.splice(idx, 1)
+          subArr.splice(idx, 1, false) // splice ‘s flag
         }
 
       } else { // No any problem
-        di.hasWeekTagNo = 0 // 疾病含绿个数0
-
+        di.hasWeekTagNo = 0 // 疾病含绿个数0q
         for (let c in di.detail.checkbox) {
           if (c.match(/green/g) && di.detail.checkbox[c]) di.hasWeekTagNo++
         }
 
         if (di.hasWeekTagNo > 0) {
           weekDiFootArr.push(di)
-          subArr.splice(idx, 1)
+          subArr.splice(idx, 1, false) // splice ‘s flag
         }
       }
+
     })
+    // 创建新子数组
+    let newSubArr = []
+    subArr.map((di, idx) => {
+      if (di) newSubArr.push(di)
+    })
+    // 重新整理
+    formatRankDiArr.push(newSubArr)
 
   })
-  weekFlag ? rankDiArr.unshift(weekDiHeadArr) : rankDiArr.push(weekDiFootArr)
-  return rankDiArr
+
+  weekFlag ? formatRankDiArr.unshift(weekDiHeadArr) : formatRankDiArr.push(weekDiFootArr)
+  return formatRankDiArr
 }

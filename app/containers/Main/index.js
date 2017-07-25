@@ -135,9 +135,9 @@ class Main extends Component {
               <input name="key_eye" type="checkbox" /><span style={{color: 'red'}}>闭眼困难</span>
             </div>
             <div>
-              <input name="weekTeeth" type="checkbox" /><span style={{color: 'green'}}>一周内曾拔牙</span>
-              <input name="weekFace" type="checkbox" /><span style={{color: 'green'}}>一周内曾接受面部麻醉</span>
-              <input name="weekVaccine" type="checkbox" /><span style={{color: 'green'}}>一周内曾打疫苗</span>
+              <input name="green_teeth" type="checkbox" /><span style={{color: 'green'}}>一周内曾拔牙</span>
+              <input name="green_face" type="checkbox" /><span style={{color: 'green'}}>一周内曾接受面部麻醉</span>
+              <input name="green_vaccine" type="checkbox" /><span style={{color: 'green'}}>一周内曾打疫苗</span>
             </div>
             <div>
               <input name="tired" type="checkbox" />易疲劳
@@ -146,7 +146,7 @@ class Main extends Component {
             </div>
             <div>
               <input name="faceNumb" type="checkbox" />面瘫侧麻木
-              <input name="key_face" type="checkbox" /><span style={{color: 'green'}}>面瘫侧严重外伤</span>
+              <input name="green_injure" type="checkbox" /><span style={{color: 'green'}}>面瘫侧严重外伤</span>
               <input name="skin" type="checkbox" />皮疹
             </div>
             <div>
