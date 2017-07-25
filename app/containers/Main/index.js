@@ -111,9 +111,9 @@ class Main extends Component {
         <div style={{marginBottom: '10px'}}>
           <div style={{fontSize: '16px'}}>进展：</div>
           <div>
-            <span style={{color: 'red'}}>1天内</span> <input name="progress" type="radio" value="key_day" defaultChecked onClick={this.changeProgressHandler}/>
-            1天~1周 <input name="progress" type="radio" value="week" onClick={this.changeProgressHandler} />
-            1周以上 <input name="progress" type="radio" value="exceedWeek" onClick={this.changeProgressHandler} />
+            <span style={{color: 'red'}}>3天内</span><input name="progress" type="radio" value="key_day" defaultChecked onClick={this.changeProgressHandler}/>
+            3~10天  <input name="progress" type="radio" value="week" onClick={this.changeProgressHandler} />
+            超过十天 <input name="progress" type="radio" value="exceedWeek" onClick={this.changeProgressHandler} />
           </div>
         </div>
 
@@ -146,7 +146,7 @@ class Main extends Component {
             </div>
             <div>
               <input name="faceNumb" type="checkbox" />面瘫侧麻木
-              <input name="key_face" type="checkbox" /><span style={{color: 'red'}}>面瘫侧严重外伤</span>
+              <input name="key_face" type="checkbox" /><span style={{color: 'green'}}>面瘫侧严重外伤</span>
               <input name="skin" type="checkbox" />皮疹
             </div>
             <div>
