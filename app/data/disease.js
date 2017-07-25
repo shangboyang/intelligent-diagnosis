@@ -18,6 +18,10 @@ const Diseases = {
       exceedWeek: false,  // 超过十天
     },
     checkbox: {
+      key_brow    : true,  // 抬眉困难
+      key_eye     : true,  // 闭眼困难
+      key_sport   : false, // 四肢运动障碍
+      tired       : true,  // 易疲劳
       fever       : false, // 发烧
       ear         : false, // 剧烈耳痛
       throat      : false, // 剧烈咽痛
@@ -26,20 +30,16 @@ const Diseases = {
       eye         : true,  // 曾眼睑痉挛
       face        : true,  // 曾面瘫
       gestation   : true,  // 正在妊娠
-      key_brow    : true,  // 抬眉困难
-      key_eye     : true,  // 闭眼困难
-      weekTeeth   : false, // 一周内曾拔牙
-      weekFace    : false, // 一周内曾接受面部麻醉
-      weekVaccine : false, // 一周内曾打疫苗
-      tired       : true,  // 易疲劳
       hearing     : false, // 听力下降
       vision      : false, // 视物模糊
       faceNumb    : false, // 面瘫侧麻木
-      key_face    : false, // 面瘫侧严重外伤
       skin        : false, // 皮疹
-      key_sport   : false, // 四肢运动障碍
       joint       : false, // 四肢关节疼痛
       headache    : false, // 剧烈头痛
+      green_teeth  : false, // 一周内曾拔牙
+      green_face   : false, // 一周内曾接受面部麻醉
+      green_vaccine: false, // 一周内曾打疫苗
+      green_injure : false, // 面瘫侧严重外伤
     }
   },
   iatrogenic: {
@@ -61,6 +61,9 @@ const Diseases = {
       exceedWeek: false,
     },
     checkbox: {
+      key_brow    : true,  // 抬眉困难
+      key_eye     : true,  // 闭眼困难
+      key_sport   : false, // 四肢运动障碍
       fever       : false, // 发烧
       ear         : false, // 剧烈耳痛
       throat      : false, // 剧烈咽痛
@@ -69,20 +72,17 @@ const Diseases = {
       eye         : false,  // 曾眼睑痉挛
       face        : false,  // 曾面瘫
       gestation   : false,  // 正在妊娠
-      key_brow    : true,  // 抬眉困难
-      key_eye     : true,  // 闭眼困难
-      weekTeeth   : true, // 一周内曾拔牙
-      weekFace    : true, // 一周内曾接受面部麻醉
-      weekVaccine : false, // 一周内曾打疫苗
       tired       : false,  // 易疲劳
       hearing     : false, // 听力下降
       vision      : false, // 视物模糊
       faceNumb    : false, // 面瘫侧麻木
-      key_face    : false, // 面瘫侧严重外伤
       skin        : false, // 皮疹
-      key_sport   : false, // 四肢运动障碍
       joint       : false, // 四肢关节疼痛
       headache    : false, // 剧烈头痛
+      green_teeth   : true, // 一周内曾拔牙
+      green_face    : true, // 一周内曾接受面部麻醉
+      green_vaccine : false, // 一周内曾打疫苗
+      green_injure    : false, // 面瘫侧严重外伤
     }
   },
   // dan zhi
@@ -105,6 +105,9 @@ const Diseases = {
       exceedWeek: true,
     },
     checkbox: {
+      key_brow    : true,  // 抬眉困难
+      key_eye     : true,  // 闭眼困难
+      key_sport   : false, // 四肢运动障碍
       fever       : false, // 发烧
       ear         : false, // 剧烈耳痛
       throat      : true, // 剧烈咽痛
@@ -113,20 +116,17 @@ const Diseases = {
       eye         : false,  // 曾眼睑痉挛
       face        : false,  // 曾面瘫
       gestation   : false,  // 正在妊娠
-      key_brow    : true,  // 抬眉困难
-      key_eye     : true,  // 闭眼困难
-      weekTeeth   : false, // 一周内曾拔牙
-      weekFace    : false, // 一周内曾接受面部麻醉
-      weekVaccine : false, // 一周内曾打疫苗
       tired       : false,  // 易疲劳
       hearing     : true, // 听力下降
       vision      : false, // 视物模糊
       faceNumb    : false, // 面瘫侧麻木
-      key_face    : false, // 面瘫侧严重外伤
       skin        : false, // 皮疹
-      key_sport   : false, // 四肢运动障碍
       joint       : false, // 四肢关节疼痛
       headache    : false, // 剧烈头痛
+      green_teeth   : false, // 一周内曾拔牙
+      green_face    : false, // 一周内曾接受面部麻醉
+      green_vaccine : false, // 一周内曾打疫苗
+      green_injure    : false, // 面瘫侧严重外伤
     }
   },
   // sai xian
@@ -149,6 +149,9 @@ const Diseases = {
       exceedWeek: true,
     },
     checkbox: {
+      key_brow    : true,  // 抬眉困难
+      key_eye     : true,  // 闭眼困难
+      key_sport   : false, // 四肢运动障碍
       fever       : false, // 发烧
       ear         : false, // 剧烈耳痛
       throat      : true, // 剧烈咽痛
@@ -157,20 +160,17 @@ const Diseases = {
       eye         : false,  // 曾眼睑痉挛
       face        : false,  // 曾面瘫
       gestation   : false,  // 正在妊娠
-      key_brow    : true,  // 抬眉困难
-      key_eye     : true,  // 闭眼困难
-      weekTeeth   : false, // 一周内曾拔牙
-      weekFace    : false, // 一周内曾接受面部麻醉
-      weekVaccine : false, // 一周内曾打疫苗
       tired       : false,  // 易疲劳
       hearing     : false, // 听力下降
       vision      : false, // 视物模糊
       faceNumb    : true, // 面瘫侧麻木
-      key_face    : false, // 面瘫侧严重外伤
       skin        : false, // 皮疹
-      key_sport   : false, // 四肢运动障碍
       joint       : false, // 四肢关节疼痛
       headache    : false, // 剧烈头痛
+      green_teeth   : false, // 一周内曾拔牙
+      green_face    : false, // 一周内曾接受面部麻醉
+      green_vaccine : false, // 一周内曾打疫苗
+      green_injure    : false, // 面瘫侧严重外伤
     }
   },
   // lai mu
@@ -193,6 +193,9 @@ const Diseases = {
       exceedWeek: false,
     },
     checkbox: {
+      key_brow    : true,  // 抬眉困难
+      key_eye     : true,  // 闭眼困难
+      key_sport   : false, // 四肢运动障碍
       fever       : true, // 发烧
       ear         : false, // 剧烈耳痛
       throat      : false, // 剧烈咽痛
@@ -201,20 +204,17 @@ const Diseases = {
       eye         : false,  // 曾眼睑痉挛
       face        : false,  // 曾面瘫
       gestation   : false,  // 正在妊娠
-      key_brow    : true,  // 抬眉困难
-      key_eye     : true,  // 闭眼困难
-      weekTeeth   : false, // 一周内曾拔牙
-      weekFace    : false, // 一周内曾接受面部麻醉
-      weekVaccine : false, // 一周内曾打疫苗
       tired       : false,  // 易疲劳
       hearing     : true, // 听力下降
       vision      : false, // 视物模糊
       faceNumb    : false, // 面瘫侧麻木
-      key_face    : false, // 面瘫侧严重外伤
       skin        : true, // 皮疹
-      key_sport   : false, // 四肢运动障碍
       joint       : true, // 四肢关节疼痛
       headache    : false, // 剧烈头痛
+      green_teeth   : false, // 一周内曾拔牙
+      green_face    : false, // 一周内曾接受面部麻醉
+      green_vaccine : false, // 一周内曾打疫苗
+      green_injure    : false, // 面瘫侧严重外伤
     }
   },
   // zhong er yuan
@@ -237,6 +237,9 @@ const Diseases = {
       exceedWeek: false,
     },
     checkbox: {
+      key_brow    : true,  // 抬眉困难
+      key_eye     : true,  // 闭眼困难
+      key_sport   : false, // 四肢运动障碍
       fever       : true, // 发烧
       ear         : true, // 剧烈耳痛
       throat      : false, // 剧烈咽痛
@@ -245,20 +248,17 @@ const Diseases = {
       eye         : false,  // 曾眼睑痉挛
       face        : false,  // 曾面瘫
       gestation   : false,  // 正在妊娠
-      key_brow    : true,  // 抬眉困难
-      key_eye     : true,  // 闭眼困难
-      weekTeeth   : false, // 一周内曾拔牙
-      weekFace    : false, // 一周内曾接受面部麻醉
-      weekVaccine : false, // 一周内曾打疫苗
       tired       : false,  // 易疲劳
       hearing     : true, // 听力下降
       vision      : false, // 视物模糊
       faceNumb    : false, // 面瘫侧麻木
-      key_face    : false, // 面瘫侧严重外伤
       skin        : false, // 皮疹
-      key_sport   : false, // 四肢运动障碍
       joint       : false, // 四肢关节疼痛
       headache    : false, // 剧烈头痛
+      green_teeth   : false, // 一周内曾拔牙
+      green_face    : false, // 一周内曾接受面部麻醉
+      green_vaccine : false, // 一周内曾打疫苗
+      green_injure    : false, // 面瘫侧严重外伤
     }
   },
   // heng te
@@ -281,6 +281,9 @@ const Diseases = {
       exceedWeek: false,
     },
     checkbox: {
+      key_brow    : true,  // 抬眉困难
+      key_eye     : true,  // 闭眼困难
+      key_sport   : false, // 四肢运动障碍
       fever       : false, // 发烧
       ear         : true, // 剧烈耳痛
       throat      : true, // 剧烈咽痛
@@ -289,20 +292,17 @@ const Diseases = {
       eye         : false,  // 曾眼睑痉挛
       face        : false,  // 曾面瘫
       gestation   : false,  // 正在妊娠
-      key_brow    : true,  // 抬眉困难
-      key_eye     : true,  // 闭眼困难
-      weekTeeth   : false, // 一周内曾拔牙
-      weekFace    : false, // 一周内曾接受面部麻醉
-      weekVaccine : false, // 一周内曾打疫苗
       tired       : false,  // 易疲劳
       hearing     : true, // 听力下降
       vision      : false, // 视物模糊
       faceNumb    : false, // 面瘫侧麻木
-      key_face    : false, // 面瘫侧严重外伤
       skin        : false, // 皮疹
-      key_sport   : false, // 四肢运动障碍
       joint       : false, // 四肢关节疼痛
       headache    : false, // 剧烈头痛
+      green_teeth   : false, // 一周内曾拔牙
+      green_face    : false, // 一周内曾接受面部麻醉
+      green_vaccine : false, // 一周内曾打疫苗
+      green_injure    : false, // 面瘫侧严重外伤
     }
   },
   // liu gan
@@ -325,6 +325,9 @@ const Diseases = {
       exceedWeek: false,
     },
     checkbox: {
+      key_brow    : true,  // 抬眉困难
+      key_eye     : true,  // 闭眼困难
+      key_sport   : false, // 四肢运动障碍
       fever       : false, // 发烧
       ear         : false, // 剧烈耳痛
       throat      : false, // 剧烈咽痛
@@ -333,20 +336,17 @@ const Diseases = {
       eye         : false,  // 曾眼睑痉挛
       face        : false,  // 曾面瘫
       gestation   : false,  // 正在妊娠
-      key_brow    : true,  // 抬眉困难
-      key_eye     : true,  // 闭眼困难
-      weekTeeth   : false, // 一周内曾拔牙
-      weekFace    : false, // 一周内曾接受面部麻醉
-      weekVaccine : true, // 一周内曾打疫苗
       tired       : true,  // 易疲劳
       hearing     : false, // 听力下降
       vision      : false, // 视物模糊
       faceNumb    : false, // 面瘫侧麻木
-      key_face    : false, // 面瘫侧严重外伤
       skin        : false, // 皮疹
-      key_sport   : false, // 四肢运动障碍
       joint       : false, // 四肢关节疼痛
       headache    : false, // 剧烈头痛
+      green_teeth   : false, // 一周内曾拔牙
+      green_face    : false, // 一周内曾接受面部麻醉
+      green_vaccine : true, // 一周内曾打疫苗
+      green_injure    : false, // 面瘫侧严重外伤
     }
   },
   // wai shang
@@ -369,6 +369,9 @@ const Diseases = {
       exceedWeek: false,
     },
     checkbox: {
+      key_brow    : true,  // 抬眉困难
+      key_eye     : true,  // 闭眼困难
+      key_sport   : false, // 四肢运动障碍
       fever       : false, // 发烧
       ear         : false, // 剧烈耳痛
       throat      : false, // 剧烈咽痛
@@ -377,20 +380,17 @@ const Diseases = {
       eye         : false,  // 曾眼睑痉挛
       face        : false,  // 曾面瘫
       gestation   : false,  // 正在妊娠
-      key_brow    : true,  // 抬眉困难
-      key_eye     : true,  // 闭眼困难
-      weekTeeth   : false, // 一周内曾拔牙
-      weekFace    : false, // 一周内曾接受面部麻醉
-      weekVaccine : false, // 一周内曾打疫苗
       tired       : false,  // 易疲劳
       hearing     : false, // 听力下降
       vision      : false, // 视物模糊
       faceNumb    : false, // 面瘫侧麻木
-      key_face    : true, // 面瘫侧严重外伤
       skin        : false, // 皮疹
-      key_sport   : false, // 四肢运动障碍
       joint       : false, // 四肢关节疼痛
       headache    : false, // 剧烈头痛
+      green_teeth   : false, // 一周内曾拔牙
+      green_face    : false, // 一周内曾接受面部麻醉
+      green_vaccine : false, // 一周内曾打疫苗
+      green_injure    : true, // 面瘫侧严重外伤
     }
   },
   // zi shen mian yi
@@ -413,6 +413,9 @@ const Diseases = {
       exceedWeek: true,
     },
     checkbox: {
+      key_brow    : true,  // 抬眉困难
+      key_eye     : true,  // 闭眼困难
+      key_sport   : true, // 四肢运动障碍
       fever       : false, // 发烧
       ear         : false, // 剧烈耳痛
       throat      : false, // 剧烈咽痛
@@ -421,20 +424,17 @@ const Diseases = {
       eye         : false,  // 曾眼睑痉挛
       face        : false,  // 曾面瘫
       gestation   : false,  // 正在妊娠
-      key_brow    : true,  // 抬眉困难
-      key_eye     : true,  // 闭眼困难
-      weekTeeth   : false, // 一周内曾拔牙
-      weekFace    : false, // 一周内曾接受面部麻醉
-      weekVaccine : false, // 一周内曾打疫苗
       tired       : false,  // 易疲劳
       hearing     : false, // 听力下降
       vision      : false, // 视物模糊
       faceNumb    : false, // 面瘫侧麻木
-      key_face    : false, // 面瘫侧严重外伤
       skin        : false, // 皮疹
-      key_sport   : true, // 四肢运动障碍
       joint       : false, // 四肢关节疼痛
       headache    : false, // 剧烈头痛
+      green_teeth   : false, // 一周内曾拔牙
+      green_face    : false, // 一周内曾接受面部麻醉
+      green_vaccine : false, // 一周内曾打疫苗
+      green_injure    : false, // 面瘫侧严重外伤
     }
   },
   // nao
@@ -457,6 +457,9 @@ const Diseases = {
       exceedWeek: false,
     },
     checkbox: {
+      key_brow    : false,  // 抬眉困难
+      key_eye     : false,  // 闭眼困难
+      key_sport   : true, // 四肢运动障碍
       fever       : false, // 发烧
       ear         : false, // 剧烈耳痛
       throat      : false, // 剧烈咽痛
@@ -465,20 +468,17 @@ const Diseases = {
       eye         : false,  // 曾眼睑痉挛
       face        : false,  // 曾面瘫
       gestation   : false,  // 正在妊娠
-      key_brow    : false,  // 抬眉困难
-      key_eye     : false,  // 闭眼困难
-      weekTeeth   : false, // 一周内曾拔牙
-      weekFace    : false, // 一周内曾接受面部麻醉
-      weekVaccine : false, // 一周内曾打疫苗
       tired       : false,  // 易疲劳
       hearing     : false, // 听力下降
       vision      : false, // 视物模糊
       faceNumb    : false, // 面瘫侧麻木
-      key_face    : false, // 面瘫侧严重外伤
       skin        : false, // 皮疹
-      key_sport   : true, // 四肢运动障碍
       joint       : false, // 四肢关节疼痛
       headache    : true, // 剧烈头痛
+      green_teeth   : false, // 一周内曾拔牙
+      green_face    : false, // 一周内曾接受面部麻醉
+      green_vaccine : false, // 一周内曾打疫苗
+      green_injure    : false, // 面瘫侧严重外伤
     }
   },
   // lu nei
@@ -501,6 +501,9 @@ const Diseases = {
       exceedWeek: true,
     },
     checkbox: {
+      key_brow    : false,  // 抬眉困难
+      key_eye     : false,  // 闭眼困难
+      key_sport   : true, // 四肢运动障碍
       fever       : false, // 发烧
       ear         : false, // 剧烈耳痛
       throat      : false, // 剧烈咽痛
@@ -509,20 +512,17 @@ const Diseases = {
       eye         : false,  // 曾眼睑痉挛
       face        : false,  // 曾面瘫
       gestation   : false,  // 正在妊娠
-      key_brow    : false,  // 抬眉困难
-      key_eye     : false,  // 闭眼困难
-      weekTeeth   : false, // 一周内曾拔牙
-      weekFace    : false, // 一周内曾接受面部麻醉
-      weekVaccine : false, // 一周内曾打疫苗
       tired       : false,  // 易疲劳
       hearing     : false, // 听力下降
       vision      : true, // 视物模糊
       faceNumb    : false, // 面瘫侧麻木
-      key_face    : false, // 面瘫侧严重外伤
       skin        : false, // 皮疹
-      key_sport   : true, // 四肢运动障碍
       joint       : false, // 四肢关节疼痛
       headache    : false, // 剧烈头痛
+      green_teeth   : false, // 一周内曾拔牙
+      green_face    : false, // 一周内曾接受面部麻醉
+      green_vaccine : false, // 一周内曾打疫苗
+      green_injure    : false, // 面瘫侧严重外伤
     }
   },
   // nao geng
@@ -545,6 +545,9 @@ const Diseases = {
       exceedWeek: false,
     },
     checkbox: {
+      key_brow    : false,  // 抬眉困难
+      key_eye     : false,  // 闭眼困难
+      key_sport   : true, // 四肢运动障碍
       fever       : false, // 发烧
       ear         : false, // 剧烈耳痛
       throat      : false, // 剧烈咽痛
@@ -553,20 +556,17 @@ const Diseases = {
       eye         : false,  // 曾眼睑痉挛
       face        : false,  // 曾面瘫
       gestation   : false,  // 正在妊娠
-      key_brow    : false,  // 抬眉困难
-      key_eye     : false,  // 闭眼困难
-      weekTeeth   : false, // 一周内曾拔牙
-      weekFace    : false, // 一周内曾接受面部麻醉
-      weekVaccine : false, // 一周内曾打疫苗
       tired       : false,  // 易疲劳
       hearing     : false, // 听力下降
       vision      : true, // 视物模糊
       faceNumb    : false, // 面瘫侧麻木
-      key_face    : false, // 面瘫侧严重外伤
       skin        : false, // 皮疹
-      key_sport   : true, // 四肢运动障碍
       joint       : false, // 四肢关节疼痛
       headache    : false, // 剧烈头痛
+      green_teeth   : false, // 一周内曾拔牙
+      green_face    : false, // 一周内曾接受面部麻醉
+      green_vaccine : false, // 一周内曾打疫苗
+      green_injure    : false, // 面瘫侧严重外伤
     }
   }
 }

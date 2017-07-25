@@ -227,7 +227,8 @@ function getDiArrFilterByWeekTags(selectors, rankDiArr) {
           weekDiHeadArr.push(di)
           subArr.splice(idx, 1)
         }
-      } else {
+
+      } else { // No any problem
         di.hasWeekTagNo = 0 // 疾病含绿个数0
 
         for (let c in di.detail.checkbox) {
