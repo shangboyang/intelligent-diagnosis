@@ -191,7 +191,7 @@ function getTagsMatchedDiArr(Diseases, currRadios, selectors) {
         for (let c in object.detail.checkbox) {
 
           if (allTagsNameArr[i] === c && object.detail.checkbox[c]) object.allTagsMatchedNo++
-          if (allTagsNameArr[i] === c && object.detail.checkbox[c] && !!c.match(/week/g)) object.weekTagsMatchedNo++
+          if (allTagsNameArr[i] === c && object.detail.checkbox[c] && !!c.match(/green/g)) object.weekTagsMatchedNo++
         }
 
       }
@@ -216,7 +216,7 @@ function getDiArrFilterByWeekTags(selectors, rankDiArr) {
   let weekDiFootArr = []
 
   for (let i = 0, len = selectors.length; i < len; i++) {
-    if (selectors[i].name.match(/week/g)) weekFlag = true
+    if (selectors[i].name.match(/green/g)) weekFlag = true
   }
 
   rankDiArr.length > 0 && rankDiArr.map((subArr, index) => {
@@ -232,7 +232,7 @@ function getDiArrFilterByWeekTags(selectors, rankDiArr) {
         di.hasWeekTagNo = 0 // 疾病含绿个数0
 
         for (let c in di.detail.checkbox) {
-          if (c.match(/week/g) && di.detail.checkbox[c]) di.hasWeekTagNo++
+          if (c.match(/green/g) && di.detail.checkbox[c]) di.hasWeekTagNo++
         }
 
         if (di.hasWeekTagNo > 0) {
