@@ -37,6 +37,7 @@ class Main extends Component {
     this.changeAgeHandler = this.changeAgeHandler.bind(this)
     this.changeBodyHandler = this.changeBodyHandler.bind(this)
     this.changeContinuedHandler = this.changeContinuedHandler.bind(this)
+    this.changeProgressHandler = this.changeProgressHandler.bind(this)
     this.submitFormHandler = this.submitFormHandler.bind(this)
   }
 
