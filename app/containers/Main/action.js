@@ -244,7 +244,6 @@ function cutSubDiArrByAllTagsNo(rankDiArr) {
 function getDiArrFilterByWeekTags(selectors, rankDiArr) {
 
   let weekFlag = false // 一次submit weekFlag是固定的
-  let weekDiHeadArr = []
   let weekDiFootArr = []
   let formatRankDiArr = []
 
@@ -257,14 +256,11 @@ function getDiArrFilterByWeekTags(selectors, rankDiArr) {
   rankDiArr.length > 0 && rankDiArr.map((subArr, index) => {
     // 有绿tag的筛选逻辑
     if (weekFlag) {
-      if (subArr.length > 1) {
-        formatRankDiArr.push(getDiArrSortByFilterName(subArr, 'weekTagsMatchedNo'))
-      } else {
+      subArr.length > 1 ? formatRankDiArr.push(getDiArrSortByFilterName(subArr, 'weekTagsMatchedNo')) :
         formatRankDiArr.push(subArr)
-      }
+
     // 无绿tag的筛选逻辑
     } else {
-
       subArr.map((di, idx) => {
 
         di.hasWeekTagNo = 0 // 疾病含绿个数0q
@@ -278,7 +274,6 @@ function getDiArrFilterByWeekTags(selectors, rankDiArr) {
         }
 
       })
-
       // 创建新子数组
       let newSubArr = []
       subArr.map((di, idx) => {
@@ -290,6 +285,7 @@ function getDiArrFilterByWeekTags(selectors, rankDiArr) {
 
   })
 
-  // weekFlag ? formatRankDiArr.unshift(weekDiHeadArr) : formatRankDiArr.push(weekDiFootArr)
-  return weekFlag ? formatRankDiArr : formatRankDiArr.push(weekDiFootArr)
+  !weekFlag && formatRankDiArr.push(weekDiFootArr)
+
+  return formatRankDiArr
 }
