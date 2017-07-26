@@ -85,6 +85,7 @@ function getDiArrByCountKeys(diArr) {
   for (let o in baseObj) {
     rankDiArr.push(baseObj[o])
   }
+
   // 直接排序
   return getSubDiArrSortByAllTagsNo(rankDiArr)
 }
@@ -207,6 +208,37 @@ function getTagsMatchedDiArr(Diseases, currRadios, selectors) {
 }
 
 /**
+ * 重新以All Tags切分子数组
+ */
+function cutSubDiArrByAllTagsNo(rankDiArr) {
+
+  let newRankDiArr = []
+
+  rankDiArr.length > 0 && rankDiArr.map((subArr, idx) => {
+    let o = {}
+
+    subArr.length > 0 && subArr.map((di, i) => {
+      if (o['All_' + di.allTagsMatchedNo]) {
+        o['All_' + di.allTagsMatchedNo].push(di)
+      } else {
+        o['All_' + di.allTagsMatchedNo] = []
+        o['All_' + di.allTagsMatchedNo].push(di)
+      }
+    })
+
+    for (let d in o) {
+      newRankDiArr.push(o[d])
+    }
+
+  })
+
+  console.log('newRankDiArr============', newRankDiArr)
+
+  // 重新依据allTagsMatchedNo来
+  return newRankDiArr
+}
+
+/**
  * Week Tag 调整优先级
  */
 function getDiArrFilterByWeekTags(selectors, rankDiArr) {
@@ -219,17 +251,22 @@ function getDiArrFilterByWeekTags(selectors, rankDiArr) {
   for (let i = 0, len = selectors.length; i < len; i++) {
     if (selectors[i].name.match(/green/g)) weekFlag = true
   }
+  // 选了绿tag的数组增加数组细节
+  rankDiArr = weekFlag ? cutSubDiArrByAllTagsNo(rankDiArr) : rankDiArr
 
   rankDiArr.length > 0 && rankDiArr.map((subArr, index) => {
-    subArr.map((di, idx) => {
-      // 选了绿 含有绿色症状的全放前面 不含绿的全放最后面
-      if (weekFlag) {
-        if (di.weekTagsMatchedNo > 0) {
-          weekDiHeadArr.push(di)
-          subArr.splice(idx, 1, false) // splice ‘s flag
-        }
+    // 有绿tag的筛选逻辑
+    if (weekFlag) {
+      if (subArr.length > 1) {
+        formatRankDiArr.push(getDiArrSortByFilterName(subArr, 'weekTagsMatchedNo'))
+      } else {
+        formatRankDiArr.push(subArr)
+      }
+    // 无绿tag的筛选逻辑
+    } else {
 
-      } else { // No any problem
+      subArr.map((di, idx) => {
+
         di.hasWeekTagNo = 0 // 疾病含绿个数0q
         for (let c in di.detail.checkbox) {
           if (c.match(/green/g) && di.detail.checkbox[c]) di.hasWeekTagNo++
@@ -239,19 +276,20 @@ function getDiArrFilterByWeekTags(selectors, rankDiArr) {
           weekDiFootArr.push(di)
           subArr.splice(idx, 1, false) // splice ‘s flag
         }
-      }
 
-    })
-    // 创建新子数组
-    let newSubArr = []
-    subArr.map((di, idx) => {
-      if (di) newSubArr.push(di)
-    })
-    // 重新整理
-    formatRankDiArr.push(newSubArr)
+      })
+
+      // 创建新子数组
+      let newSubArr = []
+      subArr.map((di, idx) => {
+        if (di) newSubArr.push(di)
+      })
+      // 重新整理
+      formatRankDiArr.push(newSubArr)
+    }
 
   })
 
-  weekFlag ? formatRankDiArr.unshift(weekDiHeadArr) : formatRankDiArr.push(weekDiFootArr)
-  return formatRankDiArr
+  // weekFlag ? formatRankDiArr.unshift(weekDiHeadArr) : formatRankDiArr.push(weekDiFootArr)
+  return weekFlag ? formatRankDiArr : formatRankDiArr.push(weekDiFootArr)
 }
