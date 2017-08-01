@@ -71,6 +71,21 @@ class Main extends Component {
     })
   }
 
+  componentDidMount() {
+    let div = document.querySelector('.video')
+    let embed = document.createElement('embed')
+    embed.setAttribute('src', 'http://player.youku.com/player.php/Type/Folder/Fid//Ob//sid/XMjkzNTY0NzI3Ng==/v.swf')
+    embed.setAttribute('quality', 'high')
+    embed.setAttribute('width', 480)
+    embed.setAttribute('height', 440)
+    embed.setAttribute('align', 'middle')
+    embed.setAttribute('allowFullScreen', 'true')
+    embed.setAttribute('allowScriptAccess', 'always')
+    embed.setAttribute('mode', 'transparent')
+    embed.setAttribute('type', 'application/x-shockwave-flash')
+    div.appendChild(embed)
+  }
+
   render() {
 
     const { Actions, diArr } = this.props
@@ -178,6 +193,10 @@ class Main extends Component {
               )
             })
           }
+        </div>
+
+        <div className="video">
+          <h3>视频播放</h3>
         </div>
       </div>
     )
