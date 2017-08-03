@@ -15,19 +15,47 @@
 鸡肝	12	1.000	红肉	4
  */
 const Ingredients = {
-  xilanhua: {
+  broccoli: {
     cname: '西兰花',
     type: 1, // 植物
     defaultRank: 1,
     weight: 2.167,
+    diseases: {
+      bells     :   //贝尔氏面瘫
+      iatrogenic:   //医源性损伤
+      biliary   :   //胆脂瘤
+      parotid   :   //腮腺肿瘤
+      lem       :   //莱姆病
+      ear       : //中耳炎
+      hunter    : //亨特氏综合征
+      cold      : //流感疫苗不良反应
+      injury    : //外伤后面神经损害
+      immune    : //自身免疫性疾病
+      blood     : //脑出血
+      encephalic: //颅内肿瘤
+      brain     : //脑梗
+    },
+    ages: {
+      baby    : // 0-1
+      child   : // 2-11
+      teenager: // 12-17
+      youth   : // 18-30
+      prime   : // 30-49
+      middle  : // 50
+    },
+    continued: {
+      stage1: // 1周以内
+      stage2: // 1周-1月
+      stage3: // 1月-6月
+      stage4: // 
+    },
+    sex: [1, 1],
     keyTags: {
       hypertension: true,
       diabetes    : true,
       gestation   : true,
     },
-    highLight: {
-      vision: false
-    }
+    highLight: [0]
   },
   zhangyu: {
     cname: '章鱼',
