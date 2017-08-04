@@ -37,7 +37,6 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log("Appp Comp State::", state);
   const { transReducer } = state
   return {
     transName: transReducer.transName,

@@ -10,8 +10,10 @@ import IMG_LUFFY from './images/luffy.jpg'
 import * as AppActions from '../App/action'
 import * as MainActions from './action'
 import Diseases from '../../data/disease'
+import Ingredients from '../../data/ingredient'
 
-console.log('Diseases', Diseases);
+console.log('Ingredients', Ingredients);
+
 const Actions = Object.assign({}, AppActions, MainActions)
 
 class Main extends Component {
@@ -20,10 +22,6 @@ class Main extends Component {
 
   constructor(props) {
     super(props)
-
-    // this.state = {
-    //   diArr: []
-    // }
 
     this.currRadio = {
       sex      : 'M',
@@ -65,7 +63,7 @@ class Main extends Component {
   submitFormHandler() {
     const { Actions } = this.props
 
-    Actions.submitForm(Diseases, {
+    Actions.submitForm(Diseases, Ingredients, {
       currRadios: this.currRadio,
       checkboxes: this.refs.checkbox,
     })
@@ -88,7 +86,7 @@ class Main extends Component {
 
   render() {
 
-    const { Actions, diArr } = this.props
+    const { Actions, diArr, igArr } = this.props
 
     return (
       <div style={{margin: '20px 20px'}}>
@@ -194,7 +192,16 @@ class Main extends Component {
             })
           }
         </div>
-
+        <div>
+          <div style={{fontSize: '16px'}}>推荐的食谱是：</div>
+          {
+            igArr && igArr.map((ig, idx) => {
+              return (
+                <div key={idx}>{idx} : {ig}</div>
+              )
+            })
+          }
+        </div>
         <div className="video">
           <h3>视频播放</h3>
         </div>
@@ -206,9 +213,9 @@ class Main extends Component {
 // redux ‘s state 非 react state
 function mapStateToProps(state) {
   const { intelligentReducer } = state
-  console.log('state', state);
   return {
-    diArr: intelligentReducer.diArr
+    diArr: intelligentReducer.diArr,
+    igArr: intelligentReducer.igArr,
   }
 }
 

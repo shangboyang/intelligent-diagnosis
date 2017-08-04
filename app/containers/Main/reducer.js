@@ -7,7 +7,8 @@ import {
 } from './constant';
 
 const initialState = {
-  diArr: []
+  diArr: [],
+  igArr: [],
 }; // 可以是Number 或者字符串 或对象
 
 const intelligentReducer = (state = initialState, action) => {
@@ -19,7 +20,8 @@ const intelligentReducer = (state = initialState, action) => {
       })
     case DISEASE_END_SORT:
       return Object.assign({}, state, {
-        diArr: action.diArr
+        diArr: action.diArr,
+        igArr: action.igArr,
       })
     default:
       return state;

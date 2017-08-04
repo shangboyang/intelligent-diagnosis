@@ -1,4 +1,3 @@
-
 import {
   DISEASE_START_SORT,
   DISEASE_END_SORT,
@@ -9,13 +8,15 @@ export function startSortAction() {
   return {
     type: DISEASE_START_SORT,
     diArr: [],
+    igArr: [],
   }
 }
 
-export function endSortAction(diArr) {
+export function endSortAction(diArr, igArr) {
   return {
     type: DISEASE_END_SORT,
-    diArr: diArr
+    diArr: diArr,
+    igArr: igArr,
   }
 }
 
@@ -24,19 +25,19 @@ export function endSortAction(diArr) {
  * @param  {[type]} selectedParams [description]
  * @return {[type]}                [description]
  */
-export function submitForm(Diseases, params) {
+export function submitForm(Diseases, Ingredients, params) {
 
   return (dispatch, getState) => {
 
     dispatch(startSortAction())
-
+    // 1.排序疾病
     let selectors = params.checkboxes.querySelectorAll('div input[type="checkbox"]:checked') || []
     let sortedDiArr = getTagsMatchedDiArr(Diseases, params.currRadios, selectors)
-
     let baseRankArr = getDiArrFilterByWeekTags(selectors, getDiArrByCountKeys(sortedDiArr))
     sortedDiArr = concatRankDiArr(baseRankArr)
-
-    dispatch(endSortAction(sortedDiArr))
+    // 2.排序食谱
+    let igRedObj = getIgObjByRedKeyTags(Ingredients, params.currRadios, selectors)
+    dispatch(endSortAction(sortedDiArr, [1, 2, 3]))
   }
 }
 
@@ -128,8 +129,8 @@ function getTagsMatchedDiArr(Diseases, currRadios, selectors) {
     allTagsNameArr.push(selectors[i].name)
   }
 
-  console.log('key tags 选中的红色标签::::::', keyNameArr);
-  console.log('all tags 选中的所有标签::::::', allTagsNameArr);
+  // console.log('key tags 选中的红色标签::::::', keyNameArr);
+  // console.log('all tags 选中的所有标签::::::', allTagsNameArr);
 
   for (let d in Diseases) {
 
@@ -288,4 +289,27 @@ function getDiArrFilterByWeekTags(selectors, rankDiArr) {
   !weekFlag && formatRankDiArr.push(weekDiFootArr)
 
   return formatRankDiArr
+}
+
+/**
+ * step1 以红keys拆分
+ */
+function getIgObjByRedKeyTags(Igs, currRadios, selectors) {
+  let igObj = {}
+  let keyNameArr = []              // 被选中标红tags组
+
+  for (let i = 0, len = selectors.length; i < len; i++) {
+    // red tags
+    if (selectors[i].name.match(/hypertension|diabetes|gestation/g)) keyNameArr.push(selectors[i].name)
+  }
+  console.log('keyNameArr', keyNameArr);
+
+  for (let i in Igs) {
+    let ig = {}
+
+    
+
+  }
+
+  return igObj
 }
