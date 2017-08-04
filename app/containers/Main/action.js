@@ -296,7 +296,7 @@ function getDiArrFilterByWeekTags(selectors, rankDiArr) {
  */
 function getIgObjByRedKeyTags(Igs, currRadios, selectors) {
   let igObj = {}
-  let keyNameArr = []              // 被选中标红tags组
+  let keyNameArr = []  // 被选中标红tags组
 
   for (let i = 0, len = selectors.length; i < len; i++) {
     // red tags
@@ -304,11 +304,19 @@ function getIgObjByRedKeyTags(Igs, currRadios, selectors) {
   }
   console.log('keyNameArr', keyNameArr);
 
-  for (let i in Igs) {
-    let ig = {}
+  for (let ig in Igs) {
+    let obj = {}
+    obj.keyMatchedNo = 0
+    for (let i = 0, len = keyNameArr.length; i < len; i++) {
 
-    
+      for (let k in Igs[ig].keyTags) {
+        if (keyNameArr[i] === k && Igs[ig].keyTags[k]) object.keyMatchedNo++
+      }
 
+    }
+    obj.name = ig
+    obj.cname = Igs[ig].cname
+    obj.detail = Igs[ig] // origin Disease Detail Data
   }
 
   return igObj
