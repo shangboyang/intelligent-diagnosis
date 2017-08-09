@@ -36,7 +36,10 @@ export function submitForm(Diseases, Ingredients, params) {
     let baseRankArr = getDiArrFilterByWeekTags(selectors, getDiArrByCountKeys(sortedDiArr))
     sortedDiArr = concatRankDiArr(baseRankArr)
     // 2.排序食谱
-    let igRedObj = getIgObjByRedKeyTags(Ingredients, params.currRadios, selectors)
+    let igRedArr = getIgObjByRedKeyTags(Ingredients, params.currRadios, selectors)
+    let cuttedIgObj = cutIgArrByKeyNo(igRedArr)
+    console.log('igRedArr', igRedArr);
+    console.log('cuttedIgObj', cuttedIgObj);
     dispatch(endSortAction(sortedDiArr, [1, 2, 3]))
   }
 }
@@ -295,8 +298,9 @@ function getDiArrFilterByWeekTags(selectors, rankDiArr) {
  * step1 以红keys拆分
  */
 function getIgObjByRedKeyTags(Igs, currRadios, selectors) {
-  let igObj = {}
   let keyNameArr = []  // 被选中标红tags组
+  let highLightArr = ['vision'] // 暂时只有一个视物模糊
+  let countedArr = []
 
   for (let i = 0, len = selectors.length; i < len; i++) {
     // red tags
@@ -307,17 +311,41 @@ function getIgObjByRedKeyTags(Igs, currRadios, selectors) {
   for (let ig in Igs) {
     let obj = {}
     obj.keyMatchedNo = 0
+    obj.hightLightNo = 0
     for (let i = 0, len = keyNameArr.length; i < len; i++) {
 
       for (let k in Igs[ig].keyTags) {
-        if (keyNameArr[i] === k && Igs[ig].keyTags[k]) object.keyMatchedNo++
+        if (keyNameArr[i] === k && Igs[ig].keyTags[k]) obj.keyMatchedNo++
       }
 
+    }
+
+    for (let i = 0, len = highLightArr.length; i < len; i++) {
+      for (let h in Igs[ig].highLight) {
+        if (highLightArr[i] === h && Igs[ig].highLight[h]) obj.hightLightNo++
+      }
     }
     obj.name = ig
     obj.cname = Igs[ig].cname
     obj.detail = Igs[ig] // origin Disease Detail Data
+
+    countedArr.push(obj)
   }
 
+  return getDiArrSortByFilterName(countedArr, 'keyMatchedNo')
+}
+
+/**
+ * 通过红tags切分食谱数组
+ */
+function cutIgArrByKeyNo(igArr) {
+  let igObj = {}
+  igArr.length > 0 && igArr.map((ig, index) => {
+    if (igObj['key_' + ig.keyMatchedNo]) {
+      igObj['key_' + ig.keyMatchedNo].push(ig)
+    } else {
+      igObj['key_' + ig.keyMatchedNo] = []
+    }
+  })
   return igObj
 }

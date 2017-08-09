@@ -55,7 +55,9 @@ const Ingredients = {
       diabetes    : true,
       gestation   : true,
     },
-    highLight: [0]
+    highLight: {
+      vision      : false
+    }
   },
   devilfish: {
     cname: '章鱼',
@@ -97,7 +99,9 @@ const Ingredients = {
       diabetes    : true,
       gestation   : true,
     },
-    highLight: [0]
+    highLight: {
+      vision      : false
+    }
   },
   pork_liver: {
     cname: '猪肝',
@@ -139,7 +143,9 @@ const Ingredients = {
       diabetes    : false,
       gestation   : true,
     },
-    highLight: [1]
+    highLight: {
+      vision      : true
+    }
   },
   anise: {
     cname: '八角',
@@ -181,7 +187,9 @@ const Ingredients = {
       diabetes    : true,
       gestation   : false,
     },
-    highLight: [0]
+    highLight: {
+      vision      : false
+    }
   },
   oat: {
     cname: '燕麦',
@@ -223,7 +231,9 @@ const Ingredients = {
       diabetes    : true,
       gestation   : true,
     },
-    highLight: [1]
+    highLight: {
+      vision      : true
+    }
   },
   celery: {
     cname: '芹菜',
@@ -265,7 +275,9 @@ const Ingredients = {
       diabetes    : true,
       gestation   : true,
     },
-    highLight: [1]
+    highLight: {
+      vision      : true
+    }
   },
   soybean: {
     cname: '黄豆',
@@ -307,7 +319,9 @@ const Ingredients = {
       diabetes    : true,
       gestation   : true,
     },
-    highLight: [0]
+    highLight: {
+      vision      : false
+    }
   },
   salmon: {
     cname: '三文鱼',
@@ -349,7 +363,9 @@ const Ingredients = {
       diabetes    : false,
       gestation   : true,
     },
-    highLight: [0]
+    highLight: {
+      vision      : false
+    }
   },
   bighead: {
     cname: '鳙鱼头',
@@ -391,7 +407,9 @@ const Ingredients = {
       diabetes    : true,
       gestation   : true,
     },
-    highLight: [1]
+    highLight: {
+      vision      : true
+    }
   },
   nut: {
     cname: '核桃仁',
@@ -433,7 +451,9 @@ const Ingredients = {
       diabetes    : true,
       gestation   : true,
     },
-    highLight: [1]
+    highLight: {
+      vision      : true
+    }
   },
   hericium: {
     cname: '猴头菇',
@@ -475,7 +495,9 @@ const Ingredients = {
       diabetes    : true,
       gestation   : true,
     },
-    highLight: [0]
+    highLight: {
+      vision      : false
+    }
   },
   chicken_liver: {
     cname: '鸡肝',
@@ -517,7 +539,9 @@ const Ingredients = {
       diabetes    : true,
       gestation   : true,
     },
-    highLight: [1]
+    highLight: {
+      vision      : true
+    }
   }
 }
 export default Ingredients
