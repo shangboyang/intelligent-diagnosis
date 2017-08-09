@@ -2,7 +2,10 @@ import {
   DISEASE_START_SORT,
   DISEASE_END_SORT,
 } from './constant'
+import Diseases from '../../data/disease'
+import Ingredients from '../../data/ingredient'
 
+console.log('Ingredients', Ingredients);
 // 排序ActionCreate
 export function startSortAction() {
   return {
@@ -25,24 +28,37 @@ export function endSortAction(diArr, igArr) {
  * @param  {[type]} selectedParams [description]
  * @return {[type]}                [description]
  */
-export function submitForm(Diseases, Ingredients, params) {
+export function submitForm(params) {
 
   return (dispatch, getState) => {
 
     dispatch(startSortAction())
     // 1.排序疾病
     let selectors = params.checkboxes.querySelectorAll('div input[type="checkbox"]:checked') || []
-    let sortedDiArr = getTagsMatchedDiArr(Diseases, params.currRadios, selectors)
-    let baseRankArr = getDiArrFilterByWeekTags(selectors, getDiArrByCountKeys(sortedDiArr))
-    sortedDiArr = concatRankDiArr(baseRankArr)
+    let sortedDiArr = executeDi(params, selectors)
+    let sortedIgArr = executeIg(params, selectors)
     // 2.排序食谱
-    let igRedArr = getIgObjByRedKeyTags(Ingredients, params.currRadios, selectors)
-    let cuttedIgObj = cutIgArrByKeyNo(igRedArr)
-    console.log('igRedArr', igRedArr);
-    console.log('cuttedIgObj', cuttedIgObj);
+
+
     dispatch(endSortAction(sortedDiArr, [1, 2, 3]))
   }
 }
+const executeDi = (params, selectors) => {
+
+  let sortedDiArr = getTagsMatchedDiArr(Diseases, params.currRadios, selectors)
+  let baseRankArr = getDiArrFilterByWeekTags(selectors, getDiArrByCountKeys(sortedDiArr))
+  sortedDiArr = concatRankDiArr(baseRankArr)
+
+  return sortedDiArr
+}
+
+const executeIg = (params, selectors) => {
+  let igRedArr = getIgObjByRedKeyTags(Ingredients, params.currRadios, selectors)
+  let cuttedIgArr = cutIgArrByKeyNo(igRedArr)
+  console.log('cuttedIgArr', cuttedIgArr);
+  sortIgArrByParams(cuttedIgArr, params)
+}
+
 
 function concatRankDiArr(rankDiArr) {
   let baseDiArr = [];
@@ -340,6 +356,7 @@ function getIgObjByRedKeyTags(Igs, currRadios, selectors) {
  */
 function cutIgArrByKeyNo(igArr) {
   let igObj = {}
+  let newIgArr = []
   igArr.length > 0 && igArr.map((ig, index) => {
     if (igObj['key_' + ig.keyMatchedNo]) {
       igObj['key_' + ig.keyMatchedNo].push(ig)
@@ -347,5 +364,88 @@ function cutIgArrByKeyNo(igArr) {
       igObj['key_' + ig.keyMatchedNo] = []
     }
   })
-  return igObj
+
+  for (let i in igObj) {
+    newIgArr.push(igObj[i])
+  }
+
+  return newIgArr
+}
+
+function sortIgArrByParams(igArr, params) {
+  // step2
+  let sortedHightLightArr = []
+  igArr.length > 0 && igArr.map((subArr, idx) => {
+    if (subArr.length > 1) {
+      subArr = getDiArrSortByFilterName(subArr, 'hightLightNo')
+      // cut subArr by hightLightNo
+      let subIgObj = {}
+      subArr.map((ig, j) => {
+        if (+ig.hightLightNo > 0) {
+          cutHlArr(subIgObj, 1, ig)
+        } else {
+          cutHlArr(subIgObj, 2, ig)
+        }
+      })
+
+      function cutHlArr(obj, type, currIg) {
+        if (obj['hl_' + type]) {
+          obj['hl_' + type].push(currIg)
+        } else{
+          obj['hl_' + type] = []
+        }
+      }
+
+      for (let s in subIgObj) {
+        sortedHightLightArr.push(subIgObj[s])
+      }
+
+    } else {
+      sortedHightLightArr.push(subArr)
+    }
+
+  })
+  getIgArrByParams(sortedHightLightArr, params)
+  
+}
+
+function getIgArrByParams(igArr, params) {
+  console.log(params.currRadios);
+  let sortedByParams = []
+  let age = +params.currRadios.age || -1
+  let ageType;
+
+  switch (true) {
+    case age >= 0 && age <= 1: ageType = 'baby'; break;
+    case age >= 2 && age <= 11: ageType = 'child'; break;
+    case age >= 12 && age <= 17: ageType = 'teenager'; break;
+    case age >= 18 && age <= 30: ageType = 'youth'; break;
+    case age >= 30 && age <= 49: ageType = 'prime'; break;
+    case age >= 50: ageType = 'middle'; break;
+    default: ageType = 'none'
+  }
+
+  igArr.length > 0 && igArr.map((subArr, idx) => {
+    if (subArr.length > 1) {
+      subArr.map((ig, j) => {
+        if (params.currRadios.sex === 'F') {
+          ig.sexMatchedNo = ig.detail.sex[1] > 0 ? 1 : 0
+        } else {
+          ig.sexMatchedNo = ig.detail.sex[0] > 0 ? 1 : 0
+        }
+        // age
+        ig.ageMatchedNo = ig.detail.ages[ageType] ? 1 : 0
+
+      })
+
+      subArr = getDiArrSortByFilterName(subArr, 'sexMatchedNo')
+      subArr = getDiArrSortByFilterName(subArr, 'ageMatchedNo')
+
+      sortedByParams.push(subArr)
+    } else {
+      sortedByParams.push(subArr)
+    }
+  })
+  console.log('sortedByParams', sortedByParams);
+  return sortedByParams;
 }

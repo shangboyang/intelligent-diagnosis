@@ -9,10 +9,9 @@ import IMG_ACE from './images/ace.jpg'
 import IMG_LUFFY from './images/luffy.jpg'
 import * as AppActions from '../App/action'
 import * as MainActions from './action'
-import Diseases from '../../data/disease'
-import Ingredients from '../../data/ingredient'
 
-console.log('Ingredients', Ingredients);
+
+
 
 const Actions = Object.assign({}, AppActions, MainActions)
 
@@ -63,7 +62,7 @@ class Main extends Component {
   submitFormHandler() {
     const { Actions } = this.props
 
-    Actions.submitForm(Diseases, Ingredients, {
+    Actions.submitForm({
       currRadios: this.currRadio,
       checkboxes: this.refs.checkbox,
     })
