@@ -86,7 +86,7 @@ class Main extends Component {
   render() {
 
     const { Actions, diArr, igArr } = this.props
-    console.log(this.props);
+
     return (
       <div style={{margin: '20px 20px'}}>
 

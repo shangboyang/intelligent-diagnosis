@@ -355,6 +355,7 @@ function getIgObjByRedKeyTags(Igs, currRadios, selectors) {
  * 通过红tags切分食谱数组
  */
 function cutIgArrByKeyNo(igArr) {
+
   let igObj = {}
   let newIgArr = []
   igArr.length > 0 && igArr.map((ig, index) => {
@@ -362,6 +363,7 @@ function cutIgArrByKeyNo(igArr) {
       igObj['key_' + ig.keyMatchedNo].push(ig)
     } else {
       igObj['key_' + ig.keyMatchedNo] = []
+      igObj['key_' + ig.keyMatchedNo].push(ig)
     }
   })
 
@@ -393,6 +395,7 @@ function sortIgArrByParams(igArr, params) {
           obj['hl_' + type].push(currIg)
         } else{
           obj['hl_' + type] = []
+          obj['hl_' + type].push(currIg)
         }
       }
 
@@ -406,14 +409,16 @@ function sortIgArrByParams(igArr, params) {
 
   })
   getIgArrByParams(sortedHightLightArr, params)
-  
+
 }
 
 function getIgArrByParams(igArr, params) {
   console.log(params.currRadios);
+
   let sortedByParams = []
   let age = +params.currRadios.age || -1
   let ageType;
+  let currContinuedNo = +params.currRadios.continued + 1 // 当前持续时间
 
   switch (true) {
     case age >= 0 && age <= 1: ageType = 'baby'; break;
@@ -435,17 +440,58 @@ function getIgArrByParams(igArr, params) {
         }
         // age
         ig.ageMatchedNo = ig.detail.ages[ageType] ? 1 : 0
-
+        // continued
+        ig.continuedNo = ig.detail.continuedNo['stage' + currContinuedNo] ? 1 : 0
       })
 
       subArr = getDiArrSortByFilterName(subArr, 'sexMatchedNo')
-      subArr = getDiArrSortByFilterName(subArr, 'ageMatchedNo')
+
+      // subArr = getDiArrSortByFilterName(subArr, 'ageMatchedNo')
 
       sortedByParams.push(subArr)
     } else {
       sortedByParams.push(subArr)
     }
   })
-  console.log('sortedByParams', sortedByParams);
+
+  sortedByParams = cutIgArrBySex(sortedByParams)
+  sortedByParams = cutIgArrByAge(sortedByParams)
+
+  //
+  function cutIgArrBySex(igArr) {
+    let newIgArr = []
+    igArr.length > 0 && igArr.map((subArr, idx) => {
+      let o = {}
+      subArr.map((ig, i) => {
+        if (!o['sexMatchedNo_' + ig.sexMatchedNo]) o['sexMatchedNo_' + ig.sexMatchedNo] = []
+        o['sexMatchedNo_' + ig.sexMatchedNo].push(ig)
+      })
+
+      for (let ig in o) {
+        if (o[ig].length > 0) o[ig] = getDiArrSortByFilterName(o[ig], 'ageMatchedNo') // 排序年龄
+        newIgArr.push(o[ig])
+      }
+    })
+    return newIgArr
+  }
+
+  function cutIgArrByAge(igArr) {
+    console.log('start- cutIgArrByAge ---', igArr);
+    let newIgArr = []
+    igArr.length > 0 && igArr.map((subArr, idx) => {
+      let o = {}
+      subArr.map((ig, i) => {
+        if (!o['ageMatchedNo_' + ig.ageMatchedNo]) o['ageMatchedNo_' + ig.ageMatchedNo] = []
+        o['ageMatchedNo_' + ig.ageMatchedNo].push(ig)
+      })
+
+      for (let ig in o) {
+        if (o[ig].length > 0) o[ig] = getDiArrSortByFilterName(o[ig], 'continuedNo') // 排序持续时间
+        newIgArr.push(o[ig])
+      }
+    })
+    return newIgArr
+  }
+  console.log('end :::', sortedByParams);
   return sortedByParams;
 }
