@@ -36,27 +36,27 @@ export function submitForm(params) {
     // 1.排序疾病
     let selectors = params.checkboxes.querySelectorAll('div input[type="checkbox"]:checked') || []
     let sortedDiArr = executeDi(params, selectors)
-    let sortedIgArr = executeIg(params, selectors)
+    console.log('sortedDiArr', sortedDiArr);
+
     // 2.排序食谱
+    let sortedIgArr = executeIg(params, selectors, sortedDiArr)
 
-
-    dispatch(endSortAction(sortedDiArr, [1, 2, 3]))
+    dispatch(endSortAction(sortedDiArr, sortedIgArr))
   }
 }
 const executeDi = (params, selectors) => {
 
   let sortedDiArr = getTagsMatchedDiArr(Diseases, params.currRadios, selectors)
   let baseRankArr = getDiArrFilterByWeekTags(selectors, getDiArrByCountKeys(sortedDiArr))
-  sortedDiArr = concatRankDiArr(baseRankArr)
 
-  return sortedDiArr
+  return concatRankDiArr(baseRankArr)
 }
 
-const executeIg = (params, selectors) => {
+const executeIg = (params, selectors, diArr) => {
   let igRedArr = getIgObjByRedKeyTags(Ingredients, params.currRadios, selectors)
   let cuttedIgArr = cutIgArrByKeyNo(igRedArr)
-  console.log('cuttedIgArr', cuttedIgArr);
-  sortIgArrByParams(cuttedIgArr, params)
+
+  return sortIgArrByDiArr(sortIgArrByParams(cuttedIgArr, params), diArr)
 }
 
 
@@ -408,8 +408,7 @@ function sortIgArrByParams(igArr, params) {
     }
 
   })
-  getIgArrByParams(sortedHightLightArr, params)
-
+  return getIgArrByParams(sortedHightLightArr, params)
 }
 
 function getIgArrByParams(igArr, params) {
@@ -441,7 +440,7 @@ function getIgArrByParams(igArr, params) {
         // age
         ig.ageMatchedNo = ig.detail.ages[ageType] ? 1 : 0
         // continued
-        ig.continuedNo = ig.detail.continuedNo['stage' + currContinuedNo] ? 1 : 0
+        ig.continuedNo = ig.detail.continued['stage' + currContinuedNo] ? 1 : 0
       })
 
       subArr = getDiArrSortByFilterName(subArr, 'sexMatchedNo')
@@ -456,6 +455,7 @@ function getIgArrByParams(igArr, params) {
 
   sortedByParams = cutIgArrBySex(sortedByParams)
   sortedByParams = cutIgArrByAge(sortedByParams)
+  sortedByParams = cutIgArrByContinued(sortedByParams)
 
   //
   function cutIgArrBySex(igArr) {
@@ -476,7 +476,6 @@ function getIgArrByParams(igArr, params) {
   }
 
   function cutIgArrByAge(igArr) {
-    console.log('start- cutIgArrByAge ---', igArr);
     let newIgArr = []
     igArr.length > 0 && igArr.map((subArr, idx) => {
       let o = {}
@@ -492,6 +491,58 @@ function getIgArrByParams(igArr, params) {
     })
     return newIgArr
   }
-  console.log('end :::', sortedByParams);
+
+  function cutIgArrByContinued(igArr) {
+    let newIgArr = []
+    igArr.length > 0 && igArr.map((subArr, idx) => {
+      let o = {}
+      subArr.map((ig, i) => {
+        if (!o['continuedNo_' + ig.continuedNo]) o['continuedNo_' + ig.continuedNo] = []
+        o['continuedNo_' + ig.continuedNo].push(ig)
+      })
+
+      for (let ig in o) {
+        // if (o[ig].length > 0) o[ig] = getDiArrSortByFilterName(o[ig], 'continuedNo') // 排序持续时间
+        newIgArr.push(o[ig])
+      }
+    })
+    return newIgArr
+  }
+
   return sortedByParams;
+}
+/**
+ * 按照疾病顺序进行排列
+ */
+function sortIgArrByDiArr(igArr, diArr) {
+  let newIgArr = []
+  igArr.length > 0 && igArr.map((subArr, idx) => {
+    let newSubIgArr = subArr
+    // 如果还有重复的分类 递归调用
+    if (subArr.length > 1) {
+      let currIndex = 0
+      newSubIgArr = recursion(subArr)
+      // 递归筛选
+      function recursion(igArr) {
+
+        if (igArr.length === 1 || currIndex === diArr.length) return igArr
+        let leftIgArr = [] // 有当前疾病
+        let rightIgArr = [] // 无当前疾病
+        igArr.map((ig, idx) => {
+          if (ig.detail.diseases[diArr[currIndex].name]) {
+            leftIgArr.push(ig)
+          } else {
+            rightIgArr.push(ig)
+          }
+        })
+        currIndex++
+
+        return recursion(leftIgArr).concat(recursion(rightIgArr))
+      }
+
+    }
+    newIgArr = newIgArr.concat(newSubIgArr)
+  })
+  console.log('final::::', newIgArr);
+  return newIgArr
 }

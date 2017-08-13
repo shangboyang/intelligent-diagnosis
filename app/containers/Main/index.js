@@ -196,7 +196,7 @@ class Main extends Component {
           {
             igArr && igArr.map((ig, idx) => {
               return (
-                <div key={idx}>{idx} : {ig}</div>
+                <div key={idx}>{idx} : {ig.cname}</div>
               )
             })
           }
