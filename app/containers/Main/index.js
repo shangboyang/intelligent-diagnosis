@@ -181,7 +181,7 @@ class Main extends Component {
           }} onClick={this.submitFormHandler}>确认提交</div>
         </div>
 
-        <div>
+        <div style={{width: '200px', float: 'left'}}>
           <div style={{fontSize: '16px'}}>选择的病可能是：</div>
           {
             diArr && diArr.map((di, idx) => {
@@ -191,7 +191,7 @@ class Main extends Component {
             })
           }
         </div>
-        <div>
+        <div style={{width: '200px', float: 'left'}}>
           <div style={{fontSize: '16px'}}>推荐的食谱是：</div>
           {
             igArr && igArr.map((ig, idx) => {
@@ -201,7 +201,7 @@ class Main extends Component {
             })
           }
         </div>
-        <div className="video">
+        <div className="video" style={{fontSize: '16px', width: '200px', clear: 'both'}}>
           <h3>视频播放</h3>
         </div>
       </div>
