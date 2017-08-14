@@ -24,6 +24,5 @@ export const Connect = (Container) => {
     }
   }
 
-
   return connect(mapStateToProps, mapActionToProps)(Container)
 }

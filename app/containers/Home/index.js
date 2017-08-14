@@ -1,8 +1,6 @@
 import React, {Component} from 'react'
 import { Link } from 'react-router'
 import { Connect } from './connect'
-import Header from '../../components/Header'
-import Content from '../../components/Content'
 import './style.less'
 import IMG_ACE from './images/ace.jpg'
 import IMG_LUFFY from './images/luffy.jpg'
