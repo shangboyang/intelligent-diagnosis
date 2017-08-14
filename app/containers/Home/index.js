@@ -8,10 +8,7 @@ import './style.less'
 import IMG_ACE from './images/ace.jpg'
 import IMG_LUFFY from './images/luffy.jpg'
 import * as AppActions from '../App/action'
-import * as MainActions from './action'
-
-
-
+import * as MainActions from './actions'
 
 const Actions = Object.assign({}, AppActions, MainActions)
 
@@ -211,10 +208,10 @@ class Main extends Component {
 
 // redux ‘s state 非 react state
 function mapStateToProps(state) {
-  const { intelligentReducer } = state
+  const { homeReducer } = state
   return {
-    diArr: intelligentReducer.diArr,
-    igArr: intelligentReducer.igArr,
+    diArr: homeReducer.diArr,
+    igArr: homeReducer.igArr,
   }
 }
 

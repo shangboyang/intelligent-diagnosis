@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux'
 import transReducer from '../containers/App/reducer'
-import intelligentReducer from '../containers/Main/reducer'
+import homeReducer from '../containers/Home/reducers'
 import listViewReducer from '../containers/ListView/reducer'
 
 const rootReducer = combineReducers({
   transReducer,
-  intelligentReducer,
+  homeReducer,
   listViewReducer,
 })
 

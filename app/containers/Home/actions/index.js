@@ -1,9 +1,9 @@
 import {
   DISEASE_START_SORT,
   DISEASE_END_SORT,
-} from './constant'
-import Diseases from '../../data/disease'
-import Ingredients from '../../data/ingredient'
+} from '../constants'
+import Diseases from '../../../data/disease'
+import Ingredients from '../../../data/ingredient'
 
 console.log('Ingredients', Ingredients);
 // 排序ActionCreate
@@ -453,11 +453,37 @@ function getIgArrByParams(igArr, params) {
     }
   })
 
+  /*
   sortedByParams = cutIgArrBySex(sortedByParams)
   sortedByParams = cutIgArrByAge(sortedByParams)
   sortedByParams = cutIgArrByContinued(sortedByParams)
+  */
 
-  //
+  sortedByParams = cugIgArrByParams(sortedByParams, 'sexMatchedNo', true, 'ageMatchedNo')
+  sortedByParams = cugIgArrByParams(sortedByParams, 'ageMatchedNo', true, 'continuedNo')
+  sortedByParams = cugIgArrByParams(sortedByParams, 'continuedNo', false, '')
+
+  // 以固定参数拆分数组
+  function cugIgArrByParams(igArr, currPropNo, nextSortFlag, nextSortPropNo) {
+    let newIgArr = []
+    igArr.length > 0 && igArr.map((subArr, idx) => {
+      let o = {}
+      subArr.map((ig, i) => {
+        if (!o[currPropNo + '_' + ig[currPropNo]]) o[currPropNo + '_' + ig[currPropNo]] = []
+        o[currPropNo + '_' + ig[currPropNo]].push(ig)
+      })
+
+      for (let ig in o) {
+        if (o[ig].length > 0 && nextSortFlag) o[ig] = getDiArrSortByFilterName(o[ig], nextSortPropNo) // 排序年龄
+        newIgArr.push(o[ig])
+      }
+
+    })
+    console.log(''+ currPropNo, newIgArr);
+    return newIgArr
+  }
+
+  /*
   function cutIgArrBySex(igArr) {
     let newIgArr = []
     igArr.length > 0 && igArr.map((subArr, idx) => {
@@ -508,7 +534,7 @@ function getIgArrByParams(igArr, params) {
     })
     return newIgArr
   }
-
+  */
   return sortedByParams;
 }
 /**

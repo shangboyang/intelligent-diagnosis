@@ -3,7 +3,7 @@ import { Router, Route, IndexRoute, browserHistory, hashHistory, applyRouterMidd
 import { useScroll } from 'react-router-scroll'
 import App from '../containers/App'
 import ListView from '../containers/ListView'
-import Main from '../containers/Main'
+import Home from '../containers/Home'
 
 
 const config = [
@@ -12,11 +12,11 @@ const config = [
     component: App,
     // default index
     indexRoute: {
-      component: Main
+      component: Home
     },
     childRoutes: [
+      { path: '/home', name: 'home', component: Home },
       { path: '/list', name: 'list', component: ListView },
-      { path: '/main', name: 'main', component: Main },
     ]
   }
 ]

@@ -4,14 +4,14 @@
 import {
   DISEASE_START_SORT,
   DISEASE_END_SORT,
-} from './constant';
+} from '../constants';
 
 const initialState = {
   diArr: [],
   igArr: [],
 }; // 可以是Number 或者字符串 或对象
 
-const intelligentReducer = (state = initialState, action) => {
+const homeReducer = (state = initialState, action) => {
 
   switch (action.type) {
     case DISEASE_START_SORT:
@@ -28,4 +28,4 @@ const intelligentReducer = (state = initialState, action) => {
   }
 };
 
-export default intelligentReducer
+export default homeReducer
