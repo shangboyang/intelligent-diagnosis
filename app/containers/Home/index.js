@@ -1,18 +1,14 @@
 import React, {Component} from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import { Link } from 'react-router'
+import { Connect } from './connect'
 import Header from '../../components/Header'
 import Content from '../../components/Content'
 import './style.less'
 import IMG_ACE from './images/ace.jpg'
 import IMG_LUFFY from './images/luffy.jpg'
-import * as AppActions from '../App/action'
-import * as MainActions from './actions'
 
-const Actions = Object.assign({}, AppActions, MainActions)
-
-class Main extends Component {
+console.log('Connect', Connect);
+class Home extends Component {
 
   static defaultProps = {};
 
@@ -206,20 +202,6 @@ class Main extends Component {
   }
 }
 
-// redux ‘s state 非 react state
-function mapStateToProps(state) {
-  const { homeReducer } = state
-  return {
-    diArr: homeReducer.diArr,
-    igArr: homeReducer.igArr,
-  }
-}
 
-function mapActionToProps(dispatch) {
-  return {
-    Actions: bindActionCreators(Actions, dispatch)
-  }
 
-}
-
-export default connect(mapStateToProps, mapActionToProps)(Main)
+export default Connect(Home)
