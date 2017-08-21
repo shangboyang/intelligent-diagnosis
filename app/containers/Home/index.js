@@ -4,8 +4,9 @@ import { Connect } from './connect'
 import './style.less'
 import IMG_ACE from './images/ace.jpg'
 import IMG_LUFFY from './images/luffy.jpg'
+import { Layout, Button } from 'antd';
+const { Header, Footer, Sider, Content } = Layout;
 
-console.log('Connect', Connect);
 class Home extends Component {
 
   static defaultProps = {};
@@ -59,27 +60,36 @@ class Home extends Component {
     })
   }
 
-  componentDidMount() {
-    let div = document.querySelector('.video')
-    let embed = document.createElement('embed')
-    embed.setAttribute('src', 'http://player.youku.com/player.php/Type/Folder/Fid//Ob//sid/XMjkzNTY0NzI3Ng==/v.swf')
-    embed.setAttribute('quality', 'high')
-    embed.setAttribute('width', 480)
-    embed.setAttribute('height', 440)
-    embed.setAttribute('align', 'middle')
-    embed.setAttribute('allowFullScreen', 'true')
-    embed.setAttribute('allowScriptAccess', 'always')
-    embed.setAttribute('mode', 'transparent')
-    embed.setAttribute('type', 'application/x-shockwave-flash')
-    div.appendChild(embed)
-  }
-
   render() {
-
-    const { Actions, diArr, igArr } = this.props
-
+    console.log('Home this', this);
+    const { router, Actions, diArr, igArr } = this.props
+    console.log(this);
     return (
-      <div style={{margin: '20px 20px'}}>
+
+      <div>
+        <Layout>
+
+          <Header style={{background: '#fff'}}>
+            <div className={'header-bar'}>
+              <Button type="primary" size={'large'}>首页</Button>
+              <Button  size={'large'} onClick={ e => router.push('/foreign')}>国外专家</Button>
+              <Button  size={'large'} onClick={ e => router.push('/about')}>关于我们</Button>
+            </div>
+          </Header>
+
+          <Content>
+
+          </Content>
+
+          <Footer>
+
+          </Footer>
+
+        </Layout>
+
+
+
+
 
         <div style={{marginBottom: '10px'}}>
           <div style={{fontSize: '16px'}}>性别：</div>
@@ -192,9 +202,7 @@ class Home extends Component {
             })
           }
         </div>
-        <div className="video" style={{fontSize: '16px', width: '200px', clear: 'both'}}>
-          <h3>视频播放</h3>
-        </div>
+
       </div>
     )
   }

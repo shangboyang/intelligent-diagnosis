@@ -15,12 +15,12 @@ const px2remOpts = {
   rootValue: 100,
   propWhiteList: [],
 };
-
+/*
 const svgDirs = [
   require.resolve('antd-mobile').replace(/warn\.js$/, ''),  // 1. 属于 antd-mobile 内置 svg 文件
   // path.resolve(__dirname, 'src/my-project-svg-foler'),  // 2. 自己私人的 svg 存放目录
 ];
-
+*/
 module.exports = {
   entry: {
     app: './app/app.js', //编译的入口文件,
@@ -79,14 +79,14 @@ module.exports = {
           // es2016 polyfill (http://babeljs.io/docs/plugins/transform-class-properties/)
           plugins: ['transform-class-properties']
         }
-      }, {
+      }, /*{
         test: /\.(svg)$/i,
         loader: 'svg-sprite',
         include: svgDirs,  // 把 svgDirs 路径下的所有 svg 文件交给 svg-sprite-loader 插件处理
-      },
+      },*/
     ]
   },
   // rucksackCss
-  postcss: ()=> [values, precss, autoprefixer, pxtorem(px2remOpts)]
+  postcss: ()=> [values, precss, autoprefixer]
 
 };
