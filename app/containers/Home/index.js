@@ -4,8 +4,10 @@ import { Connect } from './connect'
 import './style.less'
 import IMG_ACE from './images/ace.jpg'
 import IMG_LUFFY from './images/luffy.jpg'
-import { Layout, Button } from 'antd';
-const { Header, Footer, Sider, Content } = Layout;
+import MAN from './images/man.png'
+import { Layout, Button, Checkbox } from 'antd'
+
+const { Header, Footer, Sider, Content } = Layout
 
 class Home extends Component {
 
@@ -63,7 +65,7 @@ class Home extends Component {
   render() {
     console.log('Home this', this);
     const { router, Actions, diArr, igArr } = this.props
-    console.log(this);
+
     return (
 
       <div>
@@ -77,8 +79,72 @@ class Home extends Component {
             </div>
           </Header>
 
-          <Content>
+          <Content style={{background: '#f8fbfe'}}>
 
+            <div className={'content-man'}>
+              <img className="man" src={ MAN }></img>
+
+              <div className={'content-man-left'}>
+                <div className="checkbox-title">既往有无（可多选）</div>
+                <div>
+                  <div>
+                    <Checkbox className="checkbox checkbox-left" name="green_face">一周内有面部麻醉</Checkbox>
+                    <Checkbox className="checkbox checkbox-left" name="face">曾面瘫</Checkbox>
+                  </div>
+                  <div>
+                    <Checkbox className="checkbox checkbox-left" name="faceNumb">面瘫侧麻木</Checkbox>
+                    <Checkbox className="checkbox checkbox-left" name="green_injure">面瘫侧外伤</Checkbox>
+                  </div>
+                  <div>
+                    <Checkbox className="checkbox checkbox-left" name="diabetes">糖尿病史</Checkbox>
+                    <Checkbox className="checkbox checkbox-left" name="green_teeth">一周内曾拔牙</Checkbox>
+                  </div>
+                  <div>
+                    <Checkbox className="checkbox checkbox-left" name="hypertension">高血压史</Checkbox>
+                    <Checkbox className="checkbox checkbox-left" name="green_vaccine">一周内曾打疫苗</Checkbox>
+                  </div>
+                </div>
+              </div>
+
+              <div className={'content-man-right'}>
+                <div className="checkbox-title">有无此情况（可多选）</div>
+                <div>
+                  <div>
+                    <Checkbox className="checkbox checkbox-left2" name="fever">发烧</Checkbox>
+                    <Checkbox className="checkbox checkbox-left2" name="headache">剧烈头痛</Checkbox>
+                    <Checkbox className="checkbox checkbox-left2" name="tired">易疲劳</Checkbox>
+                  </div>
+                  <div>
+                    <Checkbox className="checkbox checkbox-left2" name="ear">剧烈耳鸣</Checkbox>
+                    <Checkbox className="checkbox checkbox-left2" name="hearing">听力下降</Checkbox>
+                  </div>
+                  <div>
+                    <Checkbox className="checkbox checkbox-left2" name="key_eye">闭眼困难</Checkbox>
+                    <Checkbox className="checkbox checkbox-left2" name="key_brow">抬眉困难</Checkbox>
+                  </div>
+                  <div>
+                    <Checkbox className="checkbox checkbox-left2" name="throat">剧烈咽痛</Checkbox>
+                    <Checkbox className="checkbox checkbox-left2" name="skin">皮疹</Checkbox>
+                  </div>
+                </div>
+              </div>
+
+              <div className={'content-man-middle'}>
+                <Checkbox className="checkbox checkbox-left2" name="gestation">正在妊娠</Checkbox>
+              </div>
+
+              <div className={'content-man-bottom'}>
+                <Checkbox className="checkbox checkbox-left2" name="key_sport">四肢运动障碍</Checkbox>
+                <Checkbox className="checkbox checkbox-left2" name="joint">四肢关节疼痛</Checkbox>
+              </div>
+
+            </div>
+            <div className={'content-select'}>
+
+            </div>
+            <div className={'content-btn'}>
+
+            </div>
           </Content>
 
           <Footer>
@@ -86,10 +152,6 @@ class Home extends Component {
           </Footer>
 
         </Layout>
-
-
-
-
 
         <div style={{marginBottom: '10px'}}>
           <div style={{fontSize: '16px'}}>性别：</div>
