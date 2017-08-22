@@ -5,8 +5,9 @@ import './style.less'
 import IMG_ACE from './images/ace.jpg'
 import IMG_LUFFY from './images/luffy.jpg'
 import MAN from './images/man.png'
-import { Layout, Button, Checkbox } from 'antd'
+import { Layout, Button, Checkbox, Radio, Row, Col } from 'antd'
 
+const RadioGroup = Radio.Group
 const { Header, Footer, Sider, Content } = Layout
 
 class Home extends Component {
@@ -24,6 +25,14 @@ class Home extends Component {
       progress : 'key_day',
     }
 
+    this.state = {
+      sex      : 'M',
+      age      : '',
+      body     : 'left',
+      continued: '0',
+      progress : 'key_day',
+    }
+
     this.changeSexHandler = this.changeSexHandler.bind(this)
     this.changeAgeHandler = this.changeAgeHandler.bind(this)
     this.changeBodyHandler = this.changeBodyHandler.bind(this)
@@ -33,7 +42,11 @@ class Home extends Component {
   }
 
   changeSexHandler(e) {
+    console.log(e, 'dddd');
     this.currRadio.sex = e.target.value
+    this.setState({
+      sex: e.target.value
+    })
   }
 
   changeAgeHandler(e) {
@@ -138,13 +151,111 @@ class Home extends Component {
                 <Checkbox className="checkbox checkbox-left2" name="joint">四肢关节疼痛</Checkbox>
               </div>
 
-            </div>
-            <div className={'content-select'}>
+              <div className={'content-title'}>
+                <h1>智能预诊</h1>
+                <div>Intelligebt prediction diagnosis</div>
+              </div>
+
+              <div className={'content-select'}>
+                <Row>
+                  <Col className="content-select-col content-select-age" span={4}>
+                    <div className="context">
+                      <label><i>*</i>年龄</label>
+                      <input name="age" type="text" placeholder="填写年龄大小"></input>
+                    </div>
+                  </Col>
+                  <Col className="content-select-col content-select-sex" span={3}>
+                    <div className="context">
+                      <label><i>*</i>性别</label>
+                      <div name="sex">选择性别</div>
+                    </div>
+                    <div className="icon"></div>
+                    <div className="selectbox">
+                      <RadioGroup className="box" onChange={this.changeSexHandler} value={this.state.sex}>
+                        <div><Radio value={'M'}>男性</Radio></div>
+                        <div><Radio value={'F'}>女性</Radio></div>
+                      </RadioGroup>
+                    </div>
+                  </Col>
+                  <Col className="content-select-col content-select-body" span={3}>
+                    <div className="context">
+                      <label >发病部位</label>
+                      <div name="body">选择病部位</div>
+                    </div>
+                    <div className="icon"></div>
+                    <div className="selectbox">
+                      <RadioGroup className="box" onChange={this.changeSexHandler} value={this.state.sex}>
+                        <div><Radio value={'left'}>左侧</Radio></div>
+                        <div><Radio value={'right'}>右侧</Radio></div>
+                        <div><Radio value={'key_both'}>双侧</Radio></div>
+                      </RadioGroup>
+                    </div>
+                  </Col>
+                  <Col className="content-select-col content-select-body content-select-conti" span={4}>
+                    <div className="context">
+                      <label>持续时间</label>
+                      <div name="continued">面瘫持续时间</div>
+                    </div>
+                    <div className="icon"></div>
+                    <div className="selectbox">
+                      <RadioGroup className="box box2" onChange={this.changeSexHandler} value={this.state.sex}>
+                        <div><Radio value={'0'}>1周内</Radio></div>
+                        <div><Radio value={'1'}>1周-1月</Radio></div>
+                        <div><Radio value={'2'}>1月-6月</Radio></div>
+                        <div><Radio value={'3'}>6月以上</Radio></div>
+                      </RadioGroup>
+                    </div>
+                  </Col>
+                  <Col className="content-select-col content-select-body content-select-prog" span={5}>
+                    <div className="context">
+                      <label>进展至最重</label>
+                      <div name="progress">多久病情进展到最重</div>
+                    </div>
+                    <div className="icon"></div>
+                    <div className="selectbox">
+                      <RadioGroup className="box box2" onChange={this.changeSexHandler} value={this.state.sex}>
+                        <div><Radio value={'key_day'}>3天内</Radio></div>
+                        <div><Radio value={'week'}>3~10天</Radio></div>
+                        <div><Radio value={'exceedWeek'}>超过10天</Radio></div>
+                      </RadioGroup>
+                    </div>
+                  </Col>
+                  <Col className="content-select-col content-select-body content-select-ifnot" span={5}>
+                    <div className="context">
+                      <label>病因</label>
+                      <div name="ifnot">是否已明确病因</div>
+                    </div>
+                    <div className="icon"></div>
+                    <div className="selectbox">
+                      <RadioGroup className="box box3" onChange={this.changeSexHandler} value={this.state.sex}>
+                        <div><Radio value={'0'}>尚不清楚病因</Radio></div>
+                        <div><Radio value={'1'}>贝尔氏面瘫</Radio></div>
+                        <div><Radio value={'2'}>医源性损伤</Radio></div>
+                        <div><Radio value={'3'}>胆脂瘤</Radio></div>
+                        <div><Radio value={'4'}>腮腺肿瘤</Radio></div>
+                        <div><Radio value={'5'}>莱姆病</Radio></div>
+                        <div><Radio value={'6'}>中耳炎</Radio></div>
+                        <div><Radio value={'7'}>贝尔氏面瘫</Radio></div>
+                        <div><Radio value={'8'}>亨特氏综合征</Radio></div>
+                        <div><Radio value={'9'}>流感疫苗不良反应</Radio></div>
+                        <div><Radio value={'10'}>外伤后面神经损害</Radio></div>
+                        <div><Radio value={'11'}>自身免疫性疾病</Radio></div>
+                        <div><Radio value={'12'}>脑出血</Radio></div>
+                        <div><Radio value={'13'}>颅内肿瘤</Radio></div>
+                        <div><Radio value={'14'}>脑梗</Radio></div>
+                      </RadioGroup>
+                    </div>
+                  </Col>
+                </Row>
+
+              </div>
+
+              <div className={'content-btn'}>
+                <Button className="content-btn-submit" type="primary">确定信息</Button>
+              </div>
 
             </div>
-            <div className={'content-btn'}>
 
-            </div>
           </Content>
 
           <Footer>
